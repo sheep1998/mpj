@@ -1,5 +1,8 @@
 {
   "pages": [
+    "pages/userBinding/userBinding",
+    "pages/homepage/homepage",
+    
     "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
@@ -11,13 +14,15 @@
     "pages/openapi/serverapi/serverapi",
     "pages/openapi/callback/callback",
     "pages/openapi/cloudid/cloudid"
+    
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "纤美MYSHAPELY",
+    "navigationBarTextStyle": "white"
   },
   "sitemapLocation": "sitemap.json"
 }

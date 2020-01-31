@@ -1,0 +1,4 @@
+<!--miniprogram/pages/homepage/homepage.wxml-->
+<view>
+  <view bindtap="checkMyAccount">我的账户</view>
+</view>

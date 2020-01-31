@@ -8,7 +8,6 @@ Page({
     logged: false,
     takeSession: false,
     requestResult: '',
-    tmp:"cloud://myshapely-v1.6d79-myshapely-v1-1259751623/my-image.png"
   },
 
   onLoad: function() {

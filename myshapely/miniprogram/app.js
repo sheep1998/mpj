@@ -15,6 +15,54 @@ App({
       })
     }
 
-    this.globalData = {}
+    
+
+    // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              this.globalData.userInfo.avatarUrl = res.userInfo.avatarUrl
+              this.globalData.userInfo.nickName = res.userInfo.nickName
+              console.log("获取用户信息",res.userInfo)
+            }
+          })
+        }
+      }
+    })
+
+    //获取openid（与获取用户信息异步调用）
+    if (this.globalData.userInfo.openid == null) {
+      wx.cloud.callFunction({
+        name: 'login',
+        data: {},
+        success: res => {
+          console.log('[云函数] [login] user openid: ', res.result.openid)
+          if (res.result.user.length == 0) {
+            this.globalData.userInfo.bind = false
+          }
+          else {
+            //伪代码this.globalData.userInfo = res.result.user
+            this.globalData.userInfo.bind = true
+          }
+          this.globalData.userInfo.openid = res.result.openid
+          console.log(this.globalData.userInfo)
+        },
+        fail: err => {
+          console.error('[云函数] [login] 调用失败', err)
+        }
+      })
+    }
+    
+  },
+  globalData:{
+    userInfo:{
+      avatarUrl:"",
+      nickName:"",
+      openid:null,
+      bind:false
+    }
   }
 })

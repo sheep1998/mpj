@@ -1,0 +1,54 @@
+
+<view class="header">
+创建账户
+</view>
+
+<view class="input-container">
+  <view class="{{changeName==1?'hint':'nhint'}}">姓名</view>
+  <view class="main">
+    <input class="{{select==1?'active-class':'deactive-class'}}" value='{{name}}' placeholder='姓名' bindfocus="focus1" bindblur='blur1' bindinput="input1" data-index="1" ></input>
+  </view>
+  <view class="{{warnName==1?'warn':'nwarn'}}">此栏为必填栏</view>
+</view>
+
+<view class="input-container">
+  <view class="{{chosenBirthday==1?'hint':'nhint'}}">生日</view>
+  <view class="main">
+    <input class="{{select==2?'active-class':'deactive-class'}}" value='{{birthday}}' placeholder='生日' bindfocus="focus2" data-index="2" ></input>
+  </view>
+  <view class="recommand">为了提供专属您的生日服务，请正确填写</view>
+</view>
+
+<view class="input-container">
+  <view class="{{phoneNumber!=''?'hint':'nhint'}}">手机</view>
+  <view class="main">
+    <input hidden="{{handNumberHidden}}" class="{{select==3?'active-class':'deactive-class'}}" value='{{phoneNumber}}' placeholder='手机' bindfocus="focus1" bindblur="blur2" data-index="3" ></input>
+    <button class="input-box" hidden="{{!handNumberHidden}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">手机</button>
+  </view>
+  <view class="{{warnPhone==1?'warn':'nwarn'}}">请输入有效的手机号</view>
+</view>
+
+<view class="save-container">
+  <view class="save" bindtap="save">保存</view>
+</view>
+
+
+<action-sheet hidden="{{birthdayHidden}}" bindchange="birthdayBlur">
+  <scroll-view scroll-y='true' class='cccInfo'>
+    <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;text-align:center" value="{{value}}" bindchange="bindChange">
+      <picker-view-column style="width:200rpx;">
+        <view wx:for="{{years}}" style="line-height: 50px">{{item}}年</view>
+      </picker-view-column>
+      <picker-view-column style="width:200rpx;">
+        <view wx:for="{{months}}" style="line-height: 50px">{{item}}月</view>
+      </picker-view-column>
+      <picker-view-column style="width:200rpx;">
+        <view wx:for="{{days}}" style="line-height: 50px">{{item}}日</view>
+      </picker-view-column>
+    </picker-view>
+    <view class="bottom-container">
+      <view style="width:50%">{{year}}年{{month}}月{{day}}日</view>
+      <view class="btn" bindtap="birthdayOk">确认</view>
+    </view>
+  </scroll-view>
+</action-sheet>
