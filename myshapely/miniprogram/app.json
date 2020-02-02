@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/userBinding/userBinding",
-    "pages/homepage/homepage",
     
+    "pages/homepage/homepage",
+    "pages/userBinding/userBinding",
     "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",

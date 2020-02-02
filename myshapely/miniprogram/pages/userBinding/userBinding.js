@@ -26,7 +26,7 @@ Page({
     select:0,
     changeName:0,
     warnName:0,
-    birthday:"",
+    birthday:"生日",
     chosenBirthday:0,
     birthdayHidden:true,
     years: years,
@@ -38,11 +38,12 @@ Page({
     value: [9999, 1, 1],
     phoneNumber: "",
     handNumberHidden:true,
-    warnPhone:0
+    warnPhone:0,
+    changePhone:0
   },
 
   save:function(){
-    if (this.data.name == "" || this.data.phoneNumber.length != 11||this.data.birthday==""){
+    if (this.data.name == "" || this.data.phoneNumber.length != 11||this.data.birthday=="生日"){
       wx.showToast({
         title: '请完善信息',
         icon:"none",
@@ -50,7 +51,54 @@ Page({
       })
       return;
     }
+    //做验证
     console.log(this.data.name,this.data.phoneNumber,this.data.birthday)
+    const db = wx.cloud.database();
+    wx.cloud.callFunction({
+      name:"register",
+      data:{
+        name:this.data.name,
+        phoneNumber:this.data.phoneNumber,
+        birthday:this.data.birthday,
+        language:"zh_CN"
+      },success:res=>{
+        console.log("用户绑定",res)
+        if(res.result.errMsg=="用户已绑定"){
+          wx.showToast({
+            title: '用户已绑定',
+            icon:'none',
+            duration:1500
+          })
+          return
+        }
+        if (res.result.errMsg =="collection.add:ok"){
+          console.log("用户绑定成功")
+          wx.showToast({
+            title: '用户绑定成功',
+            duration: 1500,
+          })
+          let pages = getCurrentPages()
+          let prevPage = pages[pages.length-2]
+          const app = getApp();
+          let userInfo = app.globalData.userInfo
+          userInfo.name = this.data.name
+          userInfo.phoneNumber = this.data.phoneNumber
+          userInfo.birthday = this.data.birthday
+          userInfo.bind = true
+          app.globalData.userInfo = userInfo
+
+          prevPage.setData({
+            userInfo:userInfo
+          })
+          wx.navigateBack({
+            delta:1
+          })
+        }
+      },fail:err=>{
+        console.log(err)
+      }
+    })
+
   },
 
   bindChange: function (e) {
@@ -76,9 +124,9 @@ Page({
         }
       }
     }).then(res=>{
-      console.log("成功获取手机号")
       this.setData({
-        phoneNumber: res.result.event.weRunData.data.phoneNumber
+        phoneNumber: res.result.event.weRunData.data.phoneNumber,
+        changePhone:1
       })
       wx.showToast({
         title: '手机号获取成功',
@@ -147,7 +195,21 @@ Page({
         })
       }
     }
-   
+  },
+
+  input2: function (e) {
+    if (e.detail.value == "") {
+      this.setData({
+        changePhone: 0,
+      })
+    }
+    else {
+      if (this.data.changePhone == 0) {
+        this.setData({
+          changePhone: 1,
+        })
+      }
+    }
   },
 
   focus2: function (e) {

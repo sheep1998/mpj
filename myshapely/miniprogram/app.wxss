@@ -153,3 +153,29 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+
+@font-face {
+  font-family: 'iconfont';  /* project id 1624957 */
+  src: url('//at.alicdn.com/t/font_1624957_yv71gywcut.eot');
+  src: url('//at.alicdn.com/t/font_1624957_yv71gywcut.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1624957_yv71gywcut.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1624957_yv71gywcut.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1624957_yv71gywcut.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1624957_yv71gywcut.svg#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:60rpx;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shoppingCart:before{content: '\e696';}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}

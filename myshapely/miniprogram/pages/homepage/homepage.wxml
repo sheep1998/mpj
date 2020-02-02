@@ -1,4 +1,63 @@
 <!--miniprogram/pages/homepage/homepage.wxml-->
-<view>
-  <view bindtap="checkMyAccount">我的账户</view>
+<view class="header">
+  <view class="search-container">
+    <view class="sousuo">搜索</view>
+    <view class="search-frame"></view>
+  </view>
+  <view class = "icon-container">
+    <icon class="iconfont icon-shoppingCart"></icon>
+  </view>
 </view>
+
+<view class="pic-container" wx:for="{{categories}}" wx:for-item="category" wx:for-index="categoryIndex" wx:key="key" bindtap="selectCategory" data-index="{{categoryIndex}}">
+  <image mode='widthFix' src='{{category.url}}'></image>
+  <view class="name">{{category.name}}</view>
+</view>
+
+<view class="padding"></view>
+
+<view hidden="{{!openCategory&&!openAccount}}" catchtap="closeBg" class="bg">
+  <view hidden="{{!openCategory}}" catchtap="catchClose" class="category-scroll-container">
+    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" scroll-into-view="{{toView}}">
+      <view id="cc" class="padding"></view>
+      <view hidden="{{toView!='cc'}}" class="padding"></view>
+      <view hidden="{{toView!='cc'}}" class="padding"></view>
+      <view wx:for="{{categories}}" wx:for-item="category" wx:for-index="categoryIndex" wx:key="key">
+        <view id="{{'c'+category.id}}" catchtap="chooseCbtn" class="cbtn" hover-class="hover-btn">{{category.name}}</view>
+        <view hidden="{{toView!='c'+category.id}}" wx:for="{{category.subCates}}" wx:for-item="subCate" wx:for-index="subCateIndex" wx:key="key" class="{{subCate.id==0?'new':'sbtn'}}" style="{{sid==subCate.id?'font-size:35rpx;font-weight:bold':''}}" hover-class="hover-btn">{{subCate.name}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view hidden="{{!openAccount}}" catchtap="catchClose" class="myAccount-container">
+    <view hidden="{{!userInfo.bind}}">
+      <view class="avatar-container">
+        <view class="avatar">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <view class="title">{{userInfo.name}}</view>
+      </view>
+      <view class="item" hover-class="hover-btn" >我的订单</view>
+      <view class="item" hover-class="hover-btn" >个人信息</view>
+      <view class="item" hover-class="hover-btn" >联系我们</view>
+    </view>
+    
+    <view hidden="{{userInfo.bind}}">
+      <view class="avatar-container">
+        <view class="avatar">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <view class="title" catchtap="register">登入</view>
+      </view>
+      <view class="item" hover-class="hover-btn" >联系我们</view>
+    </view>
+  </view>
+</view>
+
+
+
+<view class="tab-container">
+  <view catchtap="openCategory" class="{{openCategory?'chosenTab':'tab'}}">系列</view>
+  <view catchtap="openAccount" class="{{openAccount?'chosenTab':'tab'}}">我的账户</view>
+</view>
+
