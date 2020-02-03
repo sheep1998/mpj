@@ -1,0 +1,40 @@
+<!--miniprogram/pages/contact/contact.wxml-->
+
+<view class="header">
+联系我们
+</view>
+
+<view class="bubble" bindtap="toLocation">
+  <view class="information-container" >
+    <view class = "icon-container">
+      <icon style="font-size:65rpx" class="iconfont icon-shop"></icon>
+    </view>
+    <view class="text-container">
+      <view class="title">商店</view>
+      <view class="content">{{shopRecommanding}}</view>
+    </view>
+    <view class="tap">
+      <icon style="font-size:35rpx;color:#777777" class="iconfont icon-right"></icon>
+    </view>
+  </view>
+</view>
+
+<view class="information-container">
+  <view class = "icon-container">
+    <icon style="font-size:65rpx" class="iconfont icon-phone"></icon>
+  </view>
+  <view class="text-container">
+    <view class="title">呼叫 4008-218-226</view>
+    <view class="content">周一至周日 9：00-22：00</view>
+  </view>
+</view>
+
+<view class="information-container">
+  <view class = "icon-container">
+    <icon style="font-size:65rpx" class="iconfont icon-wx"></icon>
+  </view>
+  <view class="text-container">
+    <view class="title">微信</view>
+    <view class="content">微信号：MYSHAPELY</view>
+  </view>
+</view>

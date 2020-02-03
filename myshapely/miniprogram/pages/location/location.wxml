@@ -1,0 +1,14 @@
+<!--miniprogram/pages/location/location.wxml-->
+<view class="header">
+商店地址
+</view>
+
+<view wx:for="{{locations}}" wx:key="key" wx:for-item="location" class="information-container">
+  <view class = "icon-container">
+    <icon style="font-size:65rpx" class="iconfont icon-shop"></icon>
+  </view>
+  <view class="text-container">
+    <view class="title">{{location.address}}</view>
+    <view class="content">北纬： {{location.latitude}}</view>
+  </view>
+</view>

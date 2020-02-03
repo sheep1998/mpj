@@ -46,6 +46,7 @@ App({
           }
           else {
             //伪代码this.globalData.userInfo = res.result.user
+            this.globalData.userInfo.id = res.result.user[0]._id
             this.globalData.userInfo.bind = true
             this.globalData.userInfo.name = res.result.user[0].name
             this.globalData.userInfo.birthday = res.result.user[0].birthday
@@ -63,6 +64,9 @@ App({
   },
   globalData:{
     userInfo:{
+      name:"",
+      birthday:"",
+      phoneNumber:"",
       avatarUrl:"",
       nickName:"",
       openid:null,

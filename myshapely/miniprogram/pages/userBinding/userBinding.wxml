@@ -1,6 +1,6 @@
 
 <view class="header">
-创建账户
+{{title}}
 </view>
 
 <view class="input-container">

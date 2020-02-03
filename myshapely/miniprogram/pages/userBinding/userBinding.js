@@ -1,4 +1,5 @@
 // miniprogram/pages/userBinding/userBinding.js
+const app = getApp()
 const date = new Date()
 const years = []
 const months = []
@@ -22,6 +23,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    title:"创建账户",
     name:"",
     select:0,
     changeName:0,
@@ -32,10 +34,10 @@ Page({
     years: years,
     year: date.getFullYear(),
     months: months,
-    month: 2,
+    month: date.getMonth() + 1,
     days: days,
-    day: 2,
-    value: [9999, 1, 1],
+    day: date.getDate(),
+    value: [9999, date.getMonth(), date.getDate()-1],
     phoneNumber: "",
     handNumberHidden:true,
     warnPhone:0,
@@ -54,51 +56,105 @@ Page({
     //做验证
     console.log(this.data.name,this.data.phoneNumber,this.data.birthday)
     const db = wx.cloud.database();
-    wx.cloud.callFunction({
-      name:"register",
-      data:{
-        name:this.data.name,
-        phoneNumber:this.data.phoneNumber,
-        birthday:this.data.birthday,
-        language:"zh_CN"
-      },success:res=>{
-        console.log("用户绑定",res)
-        if(res.result.errMsg=="用户已绑定"){
-          wx.showToast({
-            title: '用户已绑定',
-            icon:'none',
-            duration:1500
-          })
-          return
-        }
-        if (res.result.errMsg =="collection.add:ok"){
-          console.log("用户绑定成功")
-          wx.showToast({
-            title: '用户绑定成功',
-            duration: 1500,
-          })
-          let pages = getCurrentPages()
-          let prevPage = pages[pages.length-2]
-          const app = getApp();
-          let userInfo = app.globalData.userInfo
-          userInfo.name = this.data.name
-          userInfo.phoneNumber = this.data.phoneNumber
-          userInfo.birthday = this.data.birthday
-          userInfo.bind = true
-          app.globalData.userInfo = userInfo
+    if(!app.globalData.userInfo.bind){
+      console.log("register")
+      wx.showLoading({
+        title: '加载中...',
+      })
+      wx.cloud.callFunction({
+        name: "register",
+        data: {
+          name: this.data.name,
+          phoneNumber: this.data.phoneNumber,
+          birthday: this.data.birthday,
+          language: "zh_CN",
+          method:"register"
+        }, success: res => {
+          console.log("用户绑定", res)
+          wx.hideLoading()
+          if (res.result.errMsg == "用户已绑定") {
+            wx.showToast({
+              title: '用户已绑定',
+              icon: 'none',
+              duration: 1500
+            })
+            return
+          }
+          if (res.result.errMsg == "collection.add:ok") {
+            console.log("用户绑定成功")
+            wx.showToast({
+              title: '用户绑定成功',
+              duration: 1500,
+            })
+            let pages = getCurrentPages()
+            let prevPage = pages[pages.length - 2]
+            const app = getApp();
+            let userInfo = app.globalData.userInfo
+            userInfo.name = this.data.name
+            userInfo.phoneNumber = this.data.phoneNumber
+            userInfo.birthday = this.data.birthday
+            userInfo.bind = true
+            userInfo.id = res.result._id
+            app.globalData.userInfo = userInfo
 
-          prevPage.setData({
-            userInfo:userInfo
-          })
-          wx.navigateBack({
-            delta:1
-          })
+            prevPage.setData({
+              userInfo: userInfo
+            })
+            wx.navigateBack({
+              delta: 1
+            })
+          }
+        }, fail: err => {
+          console.log(err)
         }
-      },fail:err=>{
-        console.log(err)
-      }
-    })
+      })
+    }
+    else{
+      console.log("update")
+      wx.cloud.callFunction({
+        name: "register",
+        data: {
+          name: this.data.name,
+          phoneNumber: this.data.phoneNumber,
+          birthday: this.data.birthday,
+          language: "zh_CN",
+          method:"update",
+          _id:app.globalData.userInfo.id
+        }, success: res => {
+          console.log("用户信息修改", res)
+          if (res.result.errMsg == "document.update:ok") {
+            console.log("用户信息修改成功")
+            wx.showToast({
+              title: '修改成功',
+              duration: 1500,
+            })
+            let pages = getCurrentPages()
+            let prevPage = pages[pages.length - 2]
+            const app = getApp();
+            let userInfo = app.globalData.userInfo
+            userInfo.name = this.data.name
+            userInfo.phoneNumber = this.data.phoneNumber
+            userInfo.birthday = this.data.birthday
+            userInfo.bind = true
+            app.globalData.userInfo = userInfo
 
+            prevPage.setData({
+              userInfo: userInfo
+            })
+          }
+          else{
+            //发送信息到控制台
+            wx.showToast({
+              title: '用户信息修改失败',
+              icon:'none',
+              duration: 1500,
+            })
+          }
+        }, fail: err => {
+          console.log(err)
+        }
+      })
+    }
   },
 
   bindChange: function (e) {
@@ -111,7 +167,6 @@ Page({
   },
 
   getPhoneNumber(e){
-    console.log("点击获取数据",e)
     this.setData({
       handNumberHidden: false
     })
@@ -124,15 +179,16 @@ Page({
         }
       }
     }).then(res=>{
+      wx.showToast({
+        title: '手机号获取成功',
+        duration: 1500,
+        icon: 'none'
+      })
       this.setData({
         phoneNumber: res.result.event.weRunData.data.phoneNumber,
         changePhone:1
       })
-      wx.showToast({
-        title: '手机号获取成功',
-        duration:2000,
-        icon:'none'
-      })
+      
     }).catch(err=>{
       console.log("手机号获取失败",err)
       wx.showToast({
@@ -240,7 +296,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if(app.globalData.userInfo.bind){
+      let str = app.globalData.userInfo.birthday.split(' ')
+      let value = this.data.value
+      value = [parseInt(str[0].slice(0, -1)) - 1900, str[1].slice(0, -1) - 1, str[2].slice(0, -1) - 1]
+      this.setData({
+        year: str[0].slice(0, -1),
+        month: str[1].slice(0, -1),
+        day: str[2].slice(0, -1),
+        value: value,
+        name: app.globalData.userInfo.name,
+        birthday: app.globalData.userInfo.birthday,
+        phoneNumber: app.globalData.userInfo.phoneNumber,
+        handNumberHidden: false,
+        title: "个人信息"
+      })
+    }
+    
   },
 
   /**
