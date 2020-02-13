@@ -1,0 +1,29 @@
+<!--miniprogram/pages/upload/upload.wxml-->
+<view class="header">
+  <view class="cate" bindtap="changeCategory">{{categoryChosen.name}}  {{subCateChosen.name}}</view>
+  <view class="plus" bindtap="addClass">+</view>
+</view>
+
+<view class="body">
+  <view wx:for="{{series}}" class="series-container" wx:key="key" data-index="{{index}}" bindtap="update">
+    <image src="{{item.longPicUrl}}"></image>
+    <view class="name">{{item.name}}</view>
+  </view>
+</view>
+
+
+<action-sheet hidden="{{categoryChooserHidden}}" bindchange="categoryChooserBlur">
+  <scroll-view scroll-y='true' class='cccInfo'>
+    <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;text-align:center" value="{{value}}" bindchange="bindChange">
+      <picker-view-column style="width:200rpx;">
+        <view wx:for="{{categories}}" wx:key="key" style="line-height: 50px">{{item.name}}</view>
+      </picker-view-column>
+      <picker-view-column style="width:200rpx;">
+        <view wx:for="{{subCates}}" wx:key="key" style="line-height: 50px">{{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+    <view class="bottom-container">
+      <view class="btn" bindtap = "confirmCate">确认</view>
+    </view>
+  </scroll-view>
+</action-sheet>

@@ -40,6 +40,7 @@
       <view class="item" hover-class="hover-btn" >我的订单</view>
       <view class="item" hover-class="hover-btn" catchtap="register">个人信息</view>
       <view class="item" hover-class="hover-btn" catchtap="toContact">联系我们</view>
+      <view class="item" hover-class="hover-btn" catchtap="toContact">添加商品</view>
     </view>
     
     <view hidden="{{userInfo.bind}}">

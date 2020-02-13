@@ -1,0 +1,223 @@
+/* miniprogram/pages/upload/single/single.wxss */
+
+.item-container{
+  padding-left:25rpx;
+  padding-right:25rpx;
+  margin-top:15rpx;
+  margin-bottom:15rpx;
+}
+
+.item-container .title{
+  height:40rpx;
+  font-size:30rpx;
+  color:#e2e2e2;
+  line-height: 40rpx;
+}
+
+.item-container .input-container{
+  line-height: 60rpx;
+  height:60rpx;
+  font-size:35rpx;
+}
+
+.item-container .input-container input{
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.item-container textarea{
+  height:300rpx;
+  background-color: aliceblue;
+  padding:15rpx;
+  width:670rpx;
+}
+
+.item-container .sticky-container{
+  display: flex;
+  flex-direction: column
+}
+
+.Fixed{
+  position: fixed;
+  top: 0;
+  margin-top: 0;
+  z-index: 1;
+}
+
+.item-container .sticky-container .add-color{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height:100rpx;
+  width:700rpx;
+} 
+
+.item-container .sticky-container .add-color .add-btn{
+  position:absolute;
+  width:200rpx;
+  height:100rpx;
+  right:0;
+  font-size:30rpx;
+  font-weight:500;
+  line-height:100rpx;
+  text-align:center;
+}
+
+.item-container .sticky-container .color-list{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.item-container .sticky-container .color-list .btn{
+  background-color:#e2e2e2;
+  text-align:center;
+  height:60rpx;
+  line-height:60rpx;
+  font-size:25rpx;
+  border-radius: 20rpx;
+  padding-left:30rpx;
+  padding-right:30rpx;
+  margin:8rpx;
+  color:#ffffff;
+}
+
+.item-container .color-container{
+  background-color:aliceblue;
+  padding:15rpx;
+  margin-top:15rpx;
+}
+
+.item-container .storage-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.item-container .storage-container .storage{
+  display: flex;
+  flex-direction: row;
+  padding:10rpx;
+  align-items: center;
+  height:80rpx;
+}
+
+.item-container .storage-container .storage .type{
+  font-size:35rpx;
+  color:black;
+  margin-right: 20rpx
+}
+
+.item-container .storage-container .storage input{
+  background-color:white;
+  z-index:1;
+  width:120rpx;
+}
+
+.item-container .add-image{
+  height:275rpx;
+  margin-left:10rpx;
+  width:200rpx;
+  font-size:30rpx;
+  line-height:275rpx;
+  text-align: center;
+  background-color:#ffffff;
+}
+
+.item-container .imgs-box{
+  margin-top:10rpx;
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.item-container .imgs-box .img-box{
+  width:220rpx;
+  height:275rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.item-container .imgs-box .img-box image{
+  width:200rpx;
+}
+
+
+.item-container .input-choose-container{
+  line-height: 60rpx;
+  height:60rpx;
+  font-size:35rpx;
+  display: flex;
+  flex-direction: row;
+  margin-top:30rpx;
+  align-items:center;
+}
+
+.item-container .input-choose-container .title{
+  width:150rpx;
+  color:black;
+}
+
+.item-container .input-choose-container input{
+  width:200rpx;
+  height:50rpx;
+  border-bottom: 1px solid #e2e2e2;
+  text-align: center;
+}
+
+.item-container .input-choose-container .btn{
+  width:120rpx;
+  height:60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.padding{
+  width:100%;
+  height:160rpx;
+}
+
+.save-container{
+  width:100%;
+  position: fixed;
+  bottom:40rpx;
+  display: flex;
+  justify-content: center;
+  z-index:999
+}
+
+.save{
+  background-color: black;
+  width:700rpx;
+  color:white;
+  font-size:33rpx;
+  height:100rpx;
+  line-height: 100rpx;
+  text-align: center;
+}
+
+.bubble{  
+  position: relative;
+  overflow: hidden;
+}
+.bubble:after{
+  content: "";
+  background: #999;
+  position: absolute; 
+  width: 750rpx;
+  height: 750rpx;
+  left: calc(50% - 375rpx);
+  top: calc(50% - 375rpx);
+  opacity: 0;
+  margin: auto;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: all 0.4s ease-in-out;
+}
+.bubble:active:after {
+  transform: scale(0);
+  opacity: 1;
+  transition: 0s;
+}

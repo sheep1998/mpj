@@ -1,12 +1,12 @@
 var shops= [
   {
     address: "上海市奉贤区人民南路281号",
-    longitude: 0,
-    latitude: 0,
-    wxContact: ""
+    longitude: 121.4575,
+    latitude: 30.911944,
+    wxContact: "MYSHAPELYNQ"
   },
   {
-    address: "上海市嘉定区城中路 163-2",
+    address: "上海市嘉定区城中路163-2",
     longitude: 121.241389,
     latitude: 31.386667,
     wxContact: ""
@@ -15,31 +15,31 @@ var shops= [
     address: "上海市闵行区剑川路龙湖天街二楼2F19",
     longitude: 121.415833,
     latitude: 31.025833,
-    wxContact: ""
+    wxContact: "z17321207677"
   },
   {
     address: "上海市徐汇区华泾龙湖天街2F03",
     longitude: 121.451111,
     latitude: 31.121667,
-    wxContact: ""
+    wxContact: "MYSHAPELY28"
   },
   {
     address: "上海市闵行区颛桥镇颛兴路349号",
     longitude: 121.389722,
     latitude: 31.067778,
-    wxContact: ""
+    wxContact: "xm70699"
   },
   {
     address: "上海市松江区广富林路658弄万达广场金街62号",
     longitude: 121.239722,
     latitude: 31.06,
-    wxContact: ""
+    wxContact: "MYSHAPELY88"
   },
   {
     address: "上海市长宁区长宁路1018号中山公园龙之梦购物中心3F3050",
     longitude: 121.412778,
     latitude: 31.221111,
-    wxContact: ""
+    wxContact: "MYSHAPELY30"
   },
   {
     address: "上海市松江区新桥镇新南街317号",
@@ -57,7 +57,7 @@ var shops= [
     address: "上海市闵行区虹桥天街216号",
     longitude: 121.308333,
     latitude: 31.193611,
-    wxContact: ""
+    wxContact: "MYSHAPELY8"
   },
   {
     address: "上海市浦东新区长泰广场B1泰和坊GW10-22",
@@ -69,49 +69,49 @@ var shops= [
     address: "上海市松江区泗泾镇江川路180号",
     longitude: 121.270278,
     latitude: 31.116111,
-    wxContact: ""
+    wxContact: "myshapelysj"
   },
   {
     address: "上海市松江区长桥街270号",
     longitude: 121.227778,
     latitude: 31.007778,
-    wxContact: ""
+    wxContact: "MYSHAPELY26"
   },
   {
     address: "上海市浦东新区金杨路659号",
     longitude: 121.5775,
     latitude: 31.253611,
-    wxContact: ""
+    wxContact: "linda2911023912"
   },
   {
     address: "上海市闵行区吴泾镇永德路步行街90号",
     longitude: 121.461111,
     latitude: 31.045278,
-    wxContact: ""
+    wxContact: "sal2869174176"
   },
   {
     address: "上海市嘉定区华江路850弄万达金街68号",
     longitude: 121.318333,
     latitude: 31.241111,
-    wxContact: ""
+    wxContact: "myshapely_vicky"
   },
   {
     address: "南通市崇川区八仙城四号区4127",
     longitude: 120.863056,
     latitude: 32.016944,
-    wxContact: ""
+    wxContact: "myshapely-nt18"
   },
   {
     address: "上海市青浦区徐泾镇京华路283号",
     longitude: 121.269414,
     latitude: 31.174022,
-    wxContact: ""
+    wxContact: "shapelylinda"
   },
   {
     address: "上海市青浦区淀山湖大道899弄万达茂广场B区BY-017",
     longitude: 121.078889,
     latitude: 31.137222,
-    wxContact: ""
+    wxContact: "MYSHAPELY29"
   },
   {
     address: "上海市宝山区北翼商业街一楼AD07",
@@ -123,13 +123,13 @@ var shops= [
     address: "上海市徐汇区田林路128号",
     longitude: 0,
     latitude: 0,
-    wxContact: ""
+    wxContact: "tlxm13391386993"
   },
   {
     address: "湖南衡阳石鼓区旺角星辰人民路103号",
-    longitude: 0,
-    latitude: 0,
-    wxContact: ""
+    longitude: 112.607222,
+    latitude: 26.901667,
+    wxContact: "a18973439996"
   }
 
 ]

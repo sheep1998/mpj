@@ -1,0 +1,94 @@
+<!--miniprogram/pages/upload/series/series.wxml-->
+<movable-area class="bg">
+
+  <view data-index='1' bindtap="switchCollapse" class="collapse-item">
+    <icon style="font-size:55rpx" class="iconfont icon-information"></icon>
+    <view class="title">基本信息</view>
+    <icon style="font-size:45rpx" class="iconfont {{showIndex==1?'icon-up':'icon-down'}}"></icon>
+  </view>
+
+  <movable-view wx:if="{{showIndex == 1}}" direction="all" class="movable-btn" x="650rpx" y="1000rpx" catchtap="editOrSave">
+    <icon style="font-size:45rpx" class="iconfont {{edit?'icon-save':'icon-edit'}}"></icon>
+  </movable-view>
+
+  <view wx:if="{{showIndex == 1}}">
+
+    <view class="item-container">
+      <view style="{{entity.name!=''?'':'color:#ffffff'}}" class="title">系列名称</view>
+      <view class="input-container">
+        <input value='{{entity.name}}' disabled="{{!edit}}" placeholder='系列名称' bindinput="inputName"></input>
+      </view>
+    </view>
+
+    <view class="item-container">
+      <view class="title">价格</view>
+      <view class="input-choose-container">
+        <view class="title">原价</view>
+        <input value='{{entity.prices[0].price}}' disabled="{{!edit}}" bindinput="inputPrice0"></input>
+        <view class="btn" bindtap="showPrice0">
+          <icon style="font-size:45rpx;color:{{entity.prices[0].show?'green':'grey'}}" class="iconfont icon-choose"></icon>
+        </view>
+      </view>
+      <view class="input-choose-container">
+        <view class="title" style="color:#fe5400">会员价</view>
+        <input value='{{entity.prices[1].price}}' disabled="{{!edit}}" bindinput="inputPrice1"></input>
+        <view class="btn" bindtap="showPrice1">
+          <icon style="font-size:45rpx;color:{{entity.prices[1].show?'green':'grey'}}" class="iconfont icon-choose"></icon>
+        </view>
+      </view>
+      <view class="input-choose-container">
+        <view class="title" style="color:red">秒杀价</view>
+        <input value='{{entity.prices[2].price}}' disabled="{{!edit}}" bindinput="inputPrice2"></input>
+        <view class="btn" bindtap="showPrice2">
+          <icon style="font-size:45rpx;color:{{entity.prices[2].show?'green':'grey'}}" class="iconfont icon-choose"></icon>
+        </view>
+      </view>
+    </view>
+
+    <view class="item-container">
+      <view class="title">搭配</view>
+      <view wx:for="{{entity.match}}" class="input-choose-container" wx:key="key">
+        <input style="width:400rpx;text-align:left" value='{{entity.match[index]}}' disabled="{{!edit}}" data-index="{{index}}" bindinput="inputMatch" placeholder="搭配{{index+1}}"></input>
+        <view class="btn" data-index="{{index}}" bindtap="addMatch">
+          <icon style="font-size:55rpx;color:green" class="iconfont icon-add"></icon>
+        </view>
+        <view class="btn" data-index="{{index}}" bindtap="delMatch">
+          <icon style="font-size:55rpx;color:red" class="iconfont icon-del"></icon>
+        </view>
+      </view>
+    </view>
+
+    <view class="item-container">
+      <view class="title">预览图(宽）</view>
+      <view hidden="{{widePic!=''||entity.widePicUrl!=''}}" bindtap="addWidePic" class="add-image">添加图片</view>
+      <view hidden="{{widePic==''&&entity.widePicUrl==''}}" bindlongtap="changeWidePic" class="image-container">
+        <image mode='widthFix' src="{{entity.widePicUrl&&!widePicChange?entity.widePicUrl:widePic}}"></image>
+      </view>
+    </view>
+
+    <view class="item-container">
+      <view class="title">预览图(长）</view>
+      <view hidden="{{longPic!=''||entity.longPicUrl!=''}}" bindtap="addLongPic" class="add-image">添加图片</view>
+      <view hidden="{{longPic==''&&entity.longPicUrl==''}}" bindlongtap="changeLongPic" class="image-container">
+        <image mode='widthFix' src="{{(entity.longPicUrl&&longPicChange==false)?entity.longPicUrl:longPic}}"></image>
+      </view>
+    </view>
+
+  </view>
+
+
+  <view data-index='2' bindtap="switchCollapse" class="collapse-item">
+    <icon style="font-size:55rpx" class="iconfont icon-products"></icon>
+    <view class="title">产品系列</view>
+    <icon style="font-size:45rpx" class="iconfont {{showIndex==2?'icon-up':'icon-down'}}"></icon>
+  </view>
+
+  <view wx:for="{{entity.products}}" class="item-container" style="border-bottom:1rpx solid #e2e2e2">
+    <view class="product">{{item.name}}</view>
+  </view>
+
+  <view bindtap="addProduct" class="item-container" style="border-bottom:1rpx solid #e2e2e2">
+    <view class="product">添加产品</view>
+  </view>
+
+</movable-area>

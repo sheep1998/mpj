@@ -63,7 +63,7 @@ Page({
   onReady: function () {
     var shopps = shops.shops
     for(var i=0;i<shopps.length;i++){
-      if(shopps[i].latitude==0) console.log(shopps[i].address)
+      if(shopps[i].wxContact=="") console.log(shopps[i].address)
     }
   },
 

@@ -1,5 +1,8 @@
 {
   "pages": [
+    "pages/upload/single/single",
+    "pages/upload/upload",
+    "pages/upload/series/series",
     "pages/homepage/homepage",
     "pages/location/location",
     "pages/contact/contact",
@@ -10,7 +13,6 @@
     "pages/databaseGuide/databaseGuide",
     "pages/addFunction/addFunction",
     "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib",
     "pages/openapi/openapi",
     "pages/openapi/serverapi/serverapi",
     "pages/openapi/callback/callback",

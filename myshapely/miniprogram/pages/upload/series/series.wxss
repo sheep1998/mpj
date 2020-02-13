@@ -1,0 +1,110 @@
+/* miniprogram/pages/upload/series/series.wxss */
+.collapse-item{
+  height:100rpx;
+  display: flex;
+  flex-direction: row;
+  padding-left:25rpx;
+  background-color:aliceblue;
+  align-items: center;
+
+}
+
+.collapse-item .title{
+  font-size:45rpx;
+  height:100rpx;
+  line-height:100rpx;
+  width:570rpx;
+  padding-left:25rpx;
+}
+
+.bg{
+  width: 100%;
+  height: 100%;
+}
+
+.bg .movable-btn{
+  position:fixed;
+  z-index:10;
+  height: 80rpx;
+  width: 80rpx;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-container{
+  padding-left:25rpx;
+  padding-right:25rpx;
+  margin-bottom:50rpx
+}
+
+.item-container .title{
+  height:40rpx;
+  font-size:30rpx;
+  color:#e2e2e2;
+  line-height: 40rpx;
+}
+
+.item-container .input-container{
+  line-height: 60rpx;
+  height:60rpx;
+  font-size:35rpx;
+}
+
+.item-container .input-container input{
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.item-container .input-choose-container{
+  line-height: 60rpx;
+  height:60rpx;
+  font-size:35rpx;
+  display: flex;
+  flex-direction: row;
+  margin-top:30rpx;
+  align-items:center;
+}
+
+.item-container .input-choose-container .title{
+  width:150rpx;
+  color:black;
+}
+
+.item-container .input-choose-container input{
+  width:200rpx;
+  height:50rpx;
+  border-bottom: 1px solid #e2e2e2;
+  text-align: center;
+}
+
+.item-container .input-choose-container .btn{
+  width:150rpx;
+  height:60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-container .add-image{
+  margin-top:30rpx;
+  height:200rpx;
+  width:200rpx;
+  font-size:30rpx;
+  background-color:aliceblue;
+  line-height:200rpx;
+  text-align: center;
+}
+
+.item-container .image-container{
+  margin-top:30rpx;
+  width:100%;
+}
+
+.item-container .product{
+  height:100rpx;
+  line-height:100rpx;
+  font-size:40rpx;
+  font-weight:500
+}

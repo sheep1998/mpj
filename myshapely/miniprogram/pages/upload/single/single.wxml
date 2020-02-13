@@ -1,0 +1,93 @@
+<!--miniprogram/pages/upload/single/single.wxml-->
+<view id="container">
+<view class="item-container">
+  <view style="{{entity.code!=''?'':'color:#ffffff'}}" class="title">编号</view>
+  <view class="input-container">
+    <input value='{{entity.code}}' placeholder='产品编号' bindinput="inputCode"></input>
+  </view>
+</view>
+
+<view class="item-container">
+  <view style="{{entity.name!=''?'':'color:#ffffff'}}" class="title">名称</view>
+  <view class="input-container">
+    <input value='{{entity.name}}' placeholder='产品名称' bindinput="inputName"></input>
+  </view>
+</view>
+
+<view class="item-container">
+  <view class="title">介绍</view>
+  <textarea value='{{entity.introduction}}' placeholder='产品介绍 (50字以内)' maxlength="50">
+  </textarea>
+</view>
+
+<view class="item-container">
+  <view id="sticky-head" class="sticky-container">
+    <view class="add-color">
+      <view class="title">颜色</view>
+      <view class="add-btn" bindtap="addColor">+添加颜色</view>
+    </view>
+    <view class="color-list">
+      <view wx:for="{{entity.colors}}" wx:key="key" bindlongtap="delColor" bindtap="changeColor" data-index="{{index}}" class="btn" style="{{colorIndex==index?'font-size:35rpx;font-weight:700;color:#777777':''}}">{{item.color}}</view>
+    </view>
+  </view>
+
+  <view hidden="{{entity.colors.length==0}}" class="color-container">
+    <view style="color:#777777" class="title">产品图片</view>
+    <view class='imgs-box'>
+      <block wx:key="key" wx:for="{{shownColorImages}}">
+        <view class="img-box" data-index = '{{index}}' bindlongtap="delColorImage">
+          <image mode="widthFix" src="{{item}}"></image>
+        </view>
+      </block>
+      <view hidden="{{shownColorImages.length==3}}" bindtap="addColorImage" class="add-image">添加图片</view>
+    </view>
+
+    <view style="color:#777777" class="title">库存</view>
+    <view class="storage-container">
+      <view wx:for="{{entity.colors[colorIndex].storages}}" wx:key="key" class="storage">
+        <view class="type">{{item.type}}</view>
+        <input data-index="{{index}}" bindinput="inputStorage" value="{{item.num}}" placeholder="数量"></input>
+      </view>
+    </view>
+  </view>
+
+
+  
+</view>
+
+<modal hidden="{{addColorHidden}}" title="添加颜色"  cancel-text="取消" bindcancel="cancelAddColor" bindconfirm="confirmAddColor">
+    <input value="{{tmpColor}}" focus="{{inputColorFocus}}" bindinput="inputColor" style="background-color:#ffffff;height:60rpx;font-size:35rpx;"></input>
+</modal>
+
+
+<view class="item-container">
+  <view class="title">产品介绍</view>
+  <view class='imgs-box'>
+    <block wx:key="key" wx:for="{{shownIntroImages}}">
+      <view class="img-box" data-index = '{{index}}' bindlongtap="delIntroImage">
+        <image mode="widthFix" src="{{item}}"></image>
+      </view>
+    </block>
+    <view style="background-color:aliceblue" hidden="{{shownIntroImages.length==3}}" bindtap="addIntroImage" class="add-image">添加图片</view>
+  </view>
+</view>
+
+<view class="item-container">
+  <view class="title">成分</view>
+  <view wx:for="{{entity.ingredient}}" class="input-choose-container" wx:key="key">
+    <input style="font-size:25rpx;width:120rpx;text-align:left;margin-right:30rpx;" value='{{entity.ingredient[index].title}}' data-index="{{index}}" bindinput="inputIngredientTitle" placeholder="标题{{index+1}}"></input>
+    <input style="font-size:25rpx;width:390rpx;text-align:left" value='{{entity.ingredient[index].content}}' data-index="{{index}}" bindinput="inputIngredientContent" placeholder="内容{{index+1}}"></input>
+    <view class="btn" data-index="{{index}}" bindtap="addIngredient">
+      <icon style="font-size:55rpx;color:green" class="iconfont icon-add"></icon>
+    </view>
+    <view class="btn" data-index="{{index}}" bindtap="delIngredient">
+      <icon style="font-size:55rpx;color:red" class="iconfont icon-del"></icon>
+    </view>
+  </view>
+</view>
+
+<view class="padding"></view>
+</view>
+<cover-view class="save-container">
+  <cover-view class="save bubble" bindtap="checkAndSave">保存</cover-view>
+</cover-view>

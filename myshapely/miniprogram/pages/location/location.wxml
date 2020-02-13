@@ -9,6 +9,6 @@
   </view>
   <view class="text-container">
     <view class="title">{{location.address}}</view>
-    <view class="content">北纬： {{location.latitude}}</view>
+    <view class="content">微信号： {{location.wxContact}}</view>
   </view>
 </view>
