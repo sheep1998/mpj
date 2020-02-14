@@ -8,6 +8,9 @@ Page({
    */
   data: {
     entity:{
+      seriesId:"",
+      category:"",
+      subCate:"",
       code: "",
       name:"",
       introduction:"",
@@ -21,6 +24,7 @@ Page({
       ]
     },
     backup:{},
+    init:false,
     addColorHidden:true,
     inputColorFocus:false,
     tmpColor:"",
@@ -35,13 +39,54 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    /*var func = options.func
+    var func = options.func
     if(func=='init'){
-      console.log(options)
-    }*/
-    this.setData({
-      tmpStorage:sizes.cup
-    })
+      var entity = this.data.entity
+      entity.seriesId = options.seriesId
+      entity.category = options.category
+      entity.subCate = options.subCate
+      var tmpStorage
+      if(options.category==1&&options.subCate==1){
+        tmpStorage=sizes.cup
+      }
+      else{
+        tmpStorage=sizes.size
+      }
+      this.setData({
+        entity:entity,
+        tmpStorage:tmpStorage,
+        init:true
+      })
+    }
+    else if(func=='update'){
+      var entity = JSON.parse(options.entity)
+      var tmpStorage
+      if (entity.category == 1 && entity.subCate == 1) {
+        tmpStorage = sizes.cup
+      }
+      else {
+        tmpStorage = sizes.size
+      }
+      for(var i=0;i<entity.colors.length;i++){
+        var storages = JSON.parse(JSON.stringify(tmpStorage))
+        for(var j=0;j<entity.colors[i].storages.length;j++){
+          for(var k=0;k<storages.length;k++){
+            if(entity.colors[i].storages[j].type==storages[k].type){
+              storages[k].num = entity.colors[i].storages[j].num
+              break;
+            }
+          }
+        }
+        entity.colors[i].storages = storages
+      }
+      console.log(entity)
+      this.setData({
+        entity:entity,
+        shownColorImages:entity.colors[0].images,
+        shownIntroImages:entity.introImages
+      })
+    }
+
 
   },
 
@@ -56,6 +101,14 @@ Page({
   inputName:function(e){
     var entity = this.data.entity
     entity.name = e.detail.value
+    this.setData({
+      entity: entity
+    })
+  },
+
+  inputIntro: function (e) {
+    var entity = this.data.entity
+    entity.introduction = e.detail.value
     this.setData({
       entity: entity
     })
@@ -176,7 +229,7 @@ Page({
 
         Promise.all(uploadImages.map((item)=>{
           return wx.cloud.uploadFile({
-            cloudPath: 'uploadtest/' + new Date().getTime() + /\.\w+$/.exec(item)[0],
+            cloudPath: 'uploadImages/' + new Date().getTime() + /\.\w+$/.exec(item)[0],
             filePath:item
           })
         })).then((resCloud)=>{
@@ -290,7 +343,7 @@ Page({
 
         Promise.all(uploadImages.map((item) => {
           return wx.cloud.uploadFile({
-            cloudPath: 'uploadtest/' + new Date().getTime() + /\.\w+$/.exec(item)[0],
+            cloudPath: 'uploadImages/' + new Date().getTime() + /\.\w+$/.exec(item)[0],
             filePath: item
           })
         })).then((resCloud) => {
@@ -410,7 +463,130 @@ Page({
   },
 
   save:function(){
-    console.log(this.data.entity)
+    let entity = JSON.parse(JSON.stringify(this.data.entity))
+    if(entity.name==""){
+      wx.showToast({
+        title: '请填写产品名称',
+        icon: 'none'
+      })
+      return
+    }
+    if (entity.code == "") {
+      wx.showToast({
+        title: '请填写产品编号',
+        icon: 'none'
+      })
+      return
+    }
+    if (entity.introduction == "") {
+      wx.showToast({
+        title: '请填写产品介绍',
+        icon: 'none'
+      })
+      return
+    }
+    if(entity.colors.length == 0){
+      wx.showToast({
+        title: '请添加产品颜色',
+        icon: 'none'
+      })
+      return
+    }
+    if (entity.introImages.length == 0) {
+      wx.showToast({
+        title: '请添加产品介绍图',
+        icon: 'none'
+      })
+      return
+    }
+    else{
+      var colors = []
+      for(var i=0;i<entity.colors.length;i++){
+        var color={}
+        if(entity.colors[i].images.length==0){
+          wx.showToast({
+            title: '请完善颜色图片',
+            icon: 'none'
+          })
+          return
+        }
+        var storages = []
+        for(var j=0;j<entity.colors[i].storages.length;j++){
+          if (entity.colors[i].storages[j].num != null && entity.colors[i].storages[j].num != "" && entity.colors[i].storages[j].num != 0 && entity.colors[i].storages[j].num != "0"){
+            try{
+              storages.push({ type: entity.colors[i].storages[j].type, num: parseInt(entity.colors[i].storages[j].num)})
+            }catch(e){
+              wx.showToast({
+                title: '库存请填入数字',
+                icon: 'none'
+              })
+              return
+            }
+          }
+        }
+        if(storages.length==0){
+          wx.showToast({
+            title: '请输入库存',
+            icon: 'none'
+          })
+          return
+        }
+        color.color = entity.colors[i].color
+        color.images = entity.colors[i].images
+        color.storages = storages
+        colors.push(color)
+      }
+      entity.colors = colors
+      console.log("保存",entity)
+      wx.showLoading({
+        title: '保存中',
+      })
+      if(this.data.init){
+        var that = this
+        wx.cloud.callFunction({
+          name: "uploadSingle",
+          data: {
+            entity: entity,
+            func: "add"
+          },
+          success: res => {
+            wx.hideLoading()
+            console.log("add", res)
+            entity._id = res.result._id
+            that.setData({
+              backup: that.data.entity
+            })
+            wx.showToast({
+              title: '保存成功',
+              icon:'none',
+              duration:1500
+            })
+          }
+        })
+      }
+      else{
+        var that = this
+        wx.cloud.callFunction({
+          name: "uploadSingle",
+          data: {
+            entity: entity,
+            func: "update"
+          },
+          success: res => {
+            wx.hideLoading()
+            that.setData({
+              backup: that.data.entity
+            })
+            wx.showToast({
+              title: '保存成功',
+              icon: 'none',
+              duration: 1500
+            })
+          }
+        })
+      }
+    }
+
   },
 
   checkAndSave:function(){

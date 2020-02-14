@@ -94,11 +94,47 @@ Page({
 
   },
 
-  update:function(e){
+  toSeries:function(e){
     var index = e.currentTarget.dataset.index
     var entity = JSON.stringify(this.data.series[index])
     wx.navigateTo({
       url: 'series/series?func=update&&entity='+entity,
+    })
+  },
+
+  delSeries:function(e){
+    var index = e.currentTarget.dataset.index
+    var that = this
+    var _id = this.data.series[index]._id
+    var filter = {
+      category: this.data.categoryChosen.id,
+      subCate: this.data.subCateChosen.id
+    }
+    wx.showModal({
+      title: '提示',
+      content: '删除系列'+that.data.series[index].name,
+      success: function (res) {
+        if (res.confirm) {
+          wx.cloud.callFunction({
+            name: "uploadSeries",
+            data: {
+              _id:_id,
+              func: "delete",
+              filter: filter,
+              pageIndex: 1,
+              pageSize: that.data.pageSize
+            },
+            success: res => {
+              that.setData({
+                series: res.result.data,
+                pageIndex: 2,
+                hasMore: res.result.hasMore
+              })
+
+            }
+          })
+        }
+      }
     })
   },
 

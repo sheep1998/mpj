@@ -5,7 +5,7 @@
 </view>
 
 <view class="body">
-  <view wx:for="{{series}}" class="series-container" wx:key="key" data-index="{{index}}" bindtap="update">
+  <view wx:for="{{series}}" class="series-container" wx:key="key" data-index="{{index}}" bindtap="toSeries" bindlongpress="delSeries">
     <image src="{{item.longPicUrl}}"></image>
     <view class="name">{{item.name}}</view>
   </view>

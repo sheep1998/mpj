@@ -1,9 +1,11 @@
 {
   "pages": [
-    "pages/upload/single/single",
-    "pages/upload/upload",
-    "pages/upload/series/series",
     "pages/homepage/homepage",
+    "pages/upload/upload",
+    "pages/upload/single/single",
+    
+    "pages/upload/series/series",
+    
     "pages/location/location",
     "pages/contact/contact",
     "pages/userBinding/userBinding",

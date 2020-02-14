@@ -4,7 +4,7 @@
   <view data-index='1' bindtap="switchCollapse" class="collapse-item">
     <icon style="font-size:55rpx" class="iconfont icon-information"></icon>
     <view class="title">基本信息</view>
-    <icon style="font-size:45rpx" class="iconfont {{showIndex==1?'icon-up':'icon-down'}}"></icon>
+    <icon style="font-size:45rpx" class="iconfont {{showIndex==1?'icon-down':'icon-up'}}"></icon>
   </view>
 
   <movable-view wx:if="{{showIndex == 1}}" direction="all" class="movable-btn" x="650rpx" y="1000rpx" catchtap="editOrSave">
@@ -46,6 +46,13 @@
     </view>
 
     <view class="item-container">
+      <view class="title">关心</view>
+      <view class="care-list">
+        <view wx:for="{{entity.cares}}" wx:key="key" bindtap="chooseCare" data-index="{{index}}" class="btn" style="{{item.show?'font-size:35rpx;font-weight:700;color:#777777':''}}">{{item.type}}</view>
+      </view>
+    </view>
+
+    <view class="item-container">
       <view class="title">搭配</view>
       <view wx:for="{{entity.match}}" class="input-choose-container" wx:key="key">
         <input style="width:400rpx;text-align:left" value='{{entity.match[index]}}' disabled="{{!edit}}" data-index="{{index}}" bindinput="inputMatch" placeholder="搭配{{index+1}}"></input>
@@ -61,7 +68,7 @@
     <view class="item-container">
       <view class="title">预览图(宽）</view>
       <view hidden="{{widePic!=''||entity.widePicUrl!=''}}" bindtap="addWidePic" class="add-image">添加图片</view>
-      <view hidden="{{widePic==''&&entity.widePicUrl==''}}" bindlongtap="changeWidePic" class="image-container">
+      <view hidden="{{widePic==''&&entity.widePicUrl==''}}" bindlongpress="changeWidePic" class="image-container">
         <image mode='widthFix' src="{{entity.widePicUrl&&!widePicChange?entity.widePicUrl:widePic}}"></image>
       </view>
     </view>
@@ -69,7 +76,7 @@
     <view class="item-container">
       <view class="title">预览图(长）</view>
       <view hidden="{{longPic!=''||entity.longPicUrl!=''}}" bindtap="addLongPic" class="add-image">添加图片</view>
-      <view hidden="{{longPic==''&&entity.longPicUrl==''}}" bindlongtap="changeLongPic" class="image-container">
+      <view hidden="{{longPic==''&&entity.longPicUrl==''}}" bindlongpress="changeLongPic" class="image-container">
         <image mode='widthFix' src="{{(entity.longPicUrl&&longPicChange==false)?entity.longPicUrl:longPic}}"></image>
       </view>
     </view>
@@ -80,15 +87,17 @@
   <view data-index='2' bindtap="switchCollapse" class="collapse-item">
     <icon style="font-size:55rpx" class="iconfont icon-products"></icon>
     <view class="title">产品系列</view>
-    <icon style="font-size:45rpx" class="iconfont {{showIndex==2?'icon-up':'icon-down'}}"></icon>
+    <icon style="font-size:45rpx" class="iconfont {{showIndex==2?'icon-down':'icon-up'}}"></icon>
   </view>
 
-  <view wx:for="{{entity.products}}" class="item-container" style="border-bottom:1rpx solid #e2e2e2">
-    <view class="product">{{item.name}}</view>
-  </view>
+  <view wx:if="{{showIndex == 2}}">
+    <view wx:for="{{tmpProducts}}" wx:key="key" style="margin-bottom:0rpx" class="product-container" style="border-bottom:1rpx solid #e2e2e2" bindtap="toSingle" data-index="{{index}}" bindlongpress="delSingle">
+      <view class="product">{{item.code+"   "}}{{item.name}}</view>
+    </view>
 
-  <view bindtap="addProduct" class="item-container" style="border-bottom:1rpx solid #e2e2e2">
-    <view class="product">添加产品</view>
+    <view bindtap="addProduct" class="product-container" style="border-bottom:1rpx solid #e2e2e2">
+      <view class="product">添加产品</view>
+    </view>
   </view>
 
 </movable-area>

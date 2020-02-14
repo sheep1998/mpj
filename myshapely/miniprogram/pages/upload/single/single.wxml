@@ -16,7 +16,7 @@
 
 <view class="item-container">
   <view class="title">介绍</view>
-  <textarea value='{{entity.introduction}}' placeholder='产品介绍 (50字以内)' maxlength="50">
+  <textarea value='{{entity.introduction}}' placeholder='产品介绍 (50字以内)' bindinput="inputIntro" maxlength="50">
   </textarea>
 </view>
 
@@ -27,7 +27,7 @@
       <view class="add-btn" bindtap="addColor">+添加颜色</view>
     </view>
     <view class="color-list">
-      <view wx:for="{{entity.colors}}" wx:key="key" bindlongtap="delColor" bindtap="changeColor" data-index="{{index}}" class="btn" style="{{colorIndex==index?'font-size:35rpx;font-weight:700;color:#777777':''}}">{{item.color}}</view>
+      <view wx:for="{{entity.colors}}" wx:key="key" bindlongpress="delColor" bindtap="changeColor" data-index="{{index}}" class="btn" style="{{colorIndex==index?'font-size:35rpx;font-weight:700;color:#777777':''}}">{{item.color}}</view>
     </view>
   </view>
 
@@ -35,7 +35,7 @@
     <view style="color:#777777" class="title">产品图片</view>
     <view class='imgs-box'>
       <block wx:key="key" wx:for="{{shownColorImages}}">
-        <view class="img-box" data-index = '{{index}}' bindlongtap="delColorImage">
+        <view class="img-box" data-index = '{{index}}' bindlongpress="delColorImage">
           <image mode="widthFix" src="{{item}}"></image>
         </view>
       </block>
@@ -64,7 +64,7 @@
   <view class="title">产品介绍</view>
   <view class='imgs-box'>
     <block wx:key="key" wx:for="{{shownIntroImages}}">
-      <view class="img-box" data-index = '{{index}}' bindlongtap="delIntroImage">
+      <view class="img-box" data-index = '{{index}}' bindlongpress="delIntroImage">
         <image mode="widthFix" src="{{item}}"></image>
       </view>
     </block>

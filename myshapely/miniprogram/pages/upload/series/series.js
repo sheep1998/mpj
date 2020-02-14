@@ -1,4 +1,5 @@
 // miniprogram/pages/upload/series/series.js
+var cares = require('../../../datas/care.js');
 Page({
 
   /**
@@ -12,10 +13,12 @@ Page({
     longPic: "",
     widePicChange:false,
     longPicChange:false,
+    tmpProducts:[],
     entity:{
       name:"",
       //原价，会员价，秒杀价
       prices: [{ price: '', show: true }, { price: '', show: true }, { price: '', show: true }],
+      cares:[],
       match: [""],
       widePicUrl: "",
       longPicUrl: "",
@@ -23,7 +26,7 @@ Page({
       category:"",
       subCate:""
     },
-    backup:{},
+    backup:{}, 
   },
 
   /**
@@ -34,7 +37,12 @@ Page({
     var entity = this.data.entity
     entity.category = parseInt(options.category)
     entity.subCate = parseInt(options.subCate)
+    var tmpCares = JSON.parse(JSON.stringify(cares.cares))
     if(func == 'init'){
+      for(var i=0;i<tmpCares.length;i++){
+        tmpCares[i].show = false
+      }
+      entity.cares = tmpCares
       this.setData({
         showIndex:1,
         edit:true,
@@ -44,6 +52,13 @@ Page({
     }
     else if(func== 'update'){
       var entity = JSON.parse(options.entity)
+      var caree = entity.cares
+      for(var i=0;i<caree.length;i++){
+        for(var j=0;j<tmpCares.length;j++){
+          if(caree[i]==tmpCares[j].id) tmpCares[j].show = true
+        }
+      }
+      entity.cares = tmpCares
       if(entity.match.length==0)entity.match=[""]
       this.setData({
         showIndex:2,
@@ -109,6 +124,13 @@ Page({
       })
       return;
     }
+
+    var tmpCares = []
+    var cares = entity.cares
+    for (var i = 0; i < cares.length; i++) {
+      if (cares[i].show) tmpCares.push(cares[i].id)
+    }
+    entity.cares = tmpCares
     
     let match = entity.match
     if (match.length == 1 && match[0] == '') match = []
@@ -190,6 +212,13 @@ Page({
         return;
       }
     }
+
+    var tmpCares = []
+    var cares = entity.cares
+    for(var i=0;i<cares.length;i++){
+      if(cares[i].show)tmpCares.push(cares[i].id)
+    }
+    entity.cares = tmpCares
 
     let match = entity.match
     if (match.length == 1 && match[0] == '') match = []
@@ -389,6 +418,15 @@ Page({
     })
   },
 
+  chooseCare:function(e){
+    var index = e.currentTarget.dataset.index
+    var entity = this.data.entity
+    entity.cares[index].show = !entity.cares[index].show
+    this.setData({
+      entity: entity
+    })
+  },
+
   inputMatch:function(e){
     var index = e.currentTarget.dataset.index
     var entity = this.data.entity
@@ -491,10 +529,48 @@ Page({
       })
       return
     }
-    var products = JSON.stringify(this.data.entity.products)
     wx.navigateTo({
-      url: '../single/single?func=init&&seriesId='+this.data.entity._id+"&&products="+products
+      url: '../single/single?func=init&&seriesId='+this.data.entity._id+"&&category="+this.data.entity.category+"&&subCate="+this.data.entity.subCate
     })
+  },
+
+  toSingle:function(e){
+    var index = e.currentTarget.dataset.index
+    var entity = JSON.stringify(this.data.tmpProducts[index])
+    wx.navigateTo({
+      url: '../single/single?func=update&&entity=' + entity,
+    })
+  },
+
+  delSingle:function(e){
+    var index = e.currentTarget.dataset.index
+    var entity = this.data.entity
+    var that = this
+    wx.showModal({
+      title: '提示',
+      content: '删除产品' + that.data.tmpProducts[index].name,
+      success: function (res) {
+        if (res.confirm) {
+          wx.cloud.callFunction({
+            name: "uploadSingle",
+            data: {
+              entity: {
+                seriesId: entity._id,
+                _id: that.data.tmpProducts[index]._id
+              },
+              func: "delete"
+            },
+            success: res => {
+              that.setData({
+                tmpProducts: res.result.products
+              })
+
+            }
+          })
+        }
+      }
+    })
+    
   },
 
   /**
@@ -508,7 +584,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if(this.data.firstEdit) return
+    var entity={_id:this.data.entity._id}
+    var that = this
+    wx.cloud.callFunction({
+      name: "uploadSingle",
+      data: {
+        entity: entity,
+        func: "getProducts"
+      },
+      success: res => {
+        that.setData({
+          tmpProducts:res.result.products
+        })
+      }
+    })
   },
 
   /**

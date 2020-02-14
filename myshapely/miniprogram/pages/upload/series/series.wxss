@@ -57,6 +57,25 @@
   border-bottom: 1px solid #e2e2e2;
 }
 
+.item-container .care-list{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.item-container .care-list .btn{
+  background-color:#e2e2e2;
+  text-align:center;
+  height:60rpx;
+  line-height:60rpx;
+  font-size:25rpx;
+  border-radius: 20rpx;
+  padding-left:30rpx;
+  padding-right:30rpx;
+  margin:8rpx;
+  color:#ffffff;
+}
+
 .item-container .input-choose-container{
   line-height: 60rpx;
   height:60rpx;
@@ -102,7 +121,12 @@
   width:100%;
 }
 
-.item-container .product{
+.product-container{
+  padding-left:25rpx;
+  padding-right:25rpx;
+}
+
+.product-container .product{
   height:100rpx;
   line-height:100rpx;
   font-size:40rpx;

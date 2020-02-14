@@ -51,6 +51,7 @@ App({
             this.globalData.userInfo.name = res.result.user[0].name
             this.globalData.userInfo.birthday = res.result.user[0].birthday
             this.globalData.userInfo.phoneNumber = res.result.user[0].phoneNumber
+            this.globalData.userInfo.xm = res.result.user[0].xm
           }
           this.globalData.userInfo.openid = res.result.openid
           console.log(this.globalData.userInfo)
