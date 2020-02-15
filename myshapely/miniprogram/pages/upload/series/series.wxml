@@ -81,6 +81,10 @@
       </view>
     </view>
 
+    <view class="item-container" style="display:flex;flex-direction:row;align-items:center">
+      <view class="title">显示</view>
+      <radio style="margin-left:30rpx;transform:scale(0.8);" bindtap="changeShow" checked="{{entity.show}}"></radio>
+    </view>
   </view>
 
 

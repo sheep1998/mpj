@@ -13,6 +13,8 @@ Page({
       subCate:"",
       code: "",
       name:"",
+      //原价，会员价，秒杀价
+      prices: [{ price: '', show: true }, { price: '', show: true }, { price: '', show: true }],
       introduction:"",
       colors:[],
       introImages:[],
@@ -21,7 +23,8 @@ Page({
           title:"",
           content:""
         }
-      ]
+      ],
+      show:true
     },
     backup:{},
     init:false,
@@ -101,6 +104,54 @@ Page({
   inputName:function(e){
     var entity = this.data.entity
     entity.name = e.detail.value
+    this.setData({
+      entity: entity
+    })
+  },
+
+  inputPrice0: function (e) {
+    var entity = this.data.entity
+    entity.prices[0].price = e.detail.value
+    this.setData({
+      entity: entity
+    })
+  },
+
+  inputPrice1: function (e) {
+    var entity = this.data.entity
+    entity.prices[1].price = e.detail.value
+    this.setData({
+      entity: entity
+    })
+  },
+
+  inputPrice2: function (e) {
+    var entity = this.data.entity
+    entity.prices[2].price = e.detail.value
+    this.setData({
+      entity: entity
+    })
+  },
+
+  showPrice0: function (e) {
+    var entity = this.data.entity
+    entity.prices[0].show = !entity.prices[0].show
+    this.setData({
+      entity: entity
+    })
+  },
+
+  showPrice1: function (e) {
+    var entity = this.data.entity
+    entity.prices[1].show = !entity.prices[1].show
+    this.setData({
+      entity: entity
+    })
+  },
+
+  showPrice2: function (e) {
+    var entity = this.data.entity
+    entity.prices[2].show = !entity.prices[2].show
     this.setData({
       entity: entity
     })
@@ -457,6 +508,14 @@ Page({
     var entity = this.data.entity
     entity.ingredient.splice(e.currentTarget.dataset.index, 1)
     if (entity.ingredient.length == 0) entity.ingredient=[{title:"",content:""}]
+    this.setData({
+      entity: entity
+    })
+  },
+
+  changeShow: function () {
+    var entity = this.data.entity
+    entity.show = !entity.show
     this.setData({
       entity: entity
     })

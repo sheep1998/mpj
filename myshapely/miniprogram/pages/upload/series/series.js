@@ -24,7 +24,8 @@ Page({
       longPicUrl: "",
       products:[],
       category:"",
-      subCate:""
+      subCate:"",
+      show:true
     },
     backup:{}, 
   },
@@ -38,6 +39,7 @@ Page({
     entity.category = parseInt(options.category)
     entity.subCate = parseInt(options.subCate)
     var tmpCares = JSON.parse(JSON.stringify(cares.cares))
+    
     if(func == 'init'){
       for(var i=0;i<tmpCares.length;i++){
         tmpCares[i].show = false
@@ -126,9 +128,9 @@ Page({
     }
 
     var tmpCares = []
-    var cares = entity.cares
-    for (var i = 0; i < cares.length; i++) {
-      if (cares[i].show) tmpCares.push(cares[i].id)
+    var ecares = entity.cares
+    for (var i = 0; i < ecares.length; i++) {
+      if (ecares[i].show) tmpCares.push(ecares[i].id)
     }
     entity.cares = tmpCares
     
@@ -173,6 +175,14 @@ Page({
                     console.log("add",res)
                     entity._id = res.result._id
                     if(entity.match.length==0)entity.match=[""]
+                    tmpCares = JSON.parse(JSON.stringify(cares.cares))
+                    var caree = entity.cares
+                    for (var i = 0; i < caree.length; i++) {
+                      for (var j = 0; j < tmpCares.length; j++) {
+                        if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+                      }
+                    }
+                    entity.cares = tmpCares
                     that.setData({
                       entity:entity,
                       edit:false,
@@ -214,9 +224,9 @@ Page({
     }
 
     var tmpCares = []
-    var cares = entity.cares
-    for(var i=0;i<cares.length;i++){
-      if(cares[i].show)tmpCares.push(cares[i].id)
+    var ecares = entity.cares
+    for(var i=0;i<ecares.length;i++){
+      if(ecares[i].show)tmpCares.push(ecares[i].id)
     }
     entity.cares = tmpCares
 
@@ -250,6 +260,14 @@ Page({
                     entity.longPicUrl = res.fileID
                     reslove()
                     if (entity.match.length == 0) entity.match = [""]
+                    tmpCares = JSON.parse(JSON.stringify(cares.cares))
+                    var caree = entity.cares
+                    for (var i = 0; i < caree.length; i++) {
+                      for (var j = 0; j < tmpCares.length; j++) {
+                        if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+                      }
+                    }
+                    entity.cares = tmpCares
                     wx.cloud.callFunction({
                       name: "uploadSeries",
                       data: {
@@ -275,6 +293,14 @@ Page({
               }))
             }
             else{
+              tmpCares = JSON.parse(JSON.stringify(cares.cares))
+              var caree = entity.cares
+              for (var i = 0; i < caree.length; i++) {
+                for (var j = 0; j < tmpCares.length; j++) {
+                  if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+                }
+              }
+              entity.cares = tmpCares
               if (entity.match.length == 0) entity.match = [""]
               wx.cloud.callFunction({
                 name: "uploadSeries",
@@ -312,6 +338,14 @@ Page({
             success: res => {
               entity.longPicUrl = res.fileID
               reslove()
+              tmpCares = JSON.parse(JSON.stringify(cares.cares))
+              var caree = entity.cares
+              for (var i = 0; i < caree.length; i++) {
+                for (var j = 0; j < tmpCares.length; j++) {
+                  if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+                }
+              }
+              entity.cares = tmpCares
               if (entity.match.length == 0) entity.match = [""]
               wx.cloud.callFunction({
                 name: "uploadSeries",
@@ -337,6 +371,14 @@ Page({
         }))
       }
       else{
+        tmpCares = JSON.parse(JSON.stringify(cares.cares))
+        var caree = entity.cares
+        for (var i = 0; i < caree.length; i++) {
+          for (var j = 0; j < tmpCares.length; j++) {
+            if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+          }
+        }
+        entity.cares = tmpCares
         if (entity.match.length == 0) entity.match = [""]
         wx.cloud.callFunction({
           name: "uploadSeries",
@@ -419,6 +461,7 @@ Page({
   },
 
   chooseCare:function(e){
+    if (!this.data.edit) return
     var index = e.currentTarget.dataset.index
     var entity = this.data.entity
     entity.cares[index].show = !entity.cares[index].show
@@ -437,6 +480,7 @@ Page({
   },
 
   addMatch:function(e){
+    if (!this.data.edit) return
     var entity = this.data.entity
     entity.match.splice(e.currentTarget.dataset.index+1,0,"")
     this.setData({
@@ -445,6 +489,7 @@ Page({
   },
 
   delMatch:function(e){
+    if (!this.data.edit) return
     var entity = this.data.entity
     entity.match.splice(e.currentTarget.dataset.index, 1)
     if(entity.match.length==0) entity.match.push("")
@@ -517,6 +562,15 @@ Page({
           that.addLongPic()
         }
       }
+    })
+  },
+
+  changeShow:function(){
+    if (!this.data.edit) return
+    var entity = this.data.entity
+    entity.show = !entity.show
+    this.setData({
+      entity:entity
     })
   },
 

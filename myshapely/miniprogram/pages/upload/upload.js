@@ -11,13 +11,14 @@ Page({
     categories:[],
     subCates:[],
     categoryChosen:{},
-    subCateChosen:{},
+    subCateChosen:{}, 
     tmp1:{},
     tmp2:{},
     series:[],
     hasMore:true,
     pageIndex:1,
-    pageSize:21
+    pageSize:21,
+    timeConsistence:""
   },
 
   /**
@@ -115,6 +116,8 @@ Page({
       content: '删除系列'+that.data.series[index].name,
       success: function (res) {
         if (res.confirm) {
+
+          //to be optimized
           wx.cloud.callFunction({
             name: "uploadSeries",
             data: {
@@ -153,15 +156,11 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    wx.showLoading({
-      title: '加载中',
-    })
+  onShow:function(){
+    this.refresh()
+  },
 
-    this.setData({
-      pageIndex:1
-    })
-
+  refresh: function () {
     var that = this
     var filter = {
       category: this.data.categoryChosen.id,
@@ -171,17 +170,25 @@ Page({
       name: "uploadSeries",
       data: {
         func: "pageRead",
+        timeConsistence:that.data.timeConsistence,
         filter: filter,
         pageIndex: 1,
         pageSize: that.data.pageSize
       },
       success: res => {
-        that.setData({
-          series: res.result.data,
-          pageIndex:2,
-          hasMore:res.result.hasMore
-        })
-        wx.hideLoading()
+        console.log(res)
+        if(res.result.needFresh){
+          that.setData({
+            series: res.result.data,
+            hasMore: res.result.hasMore,
+            timeConsistence:res.result.timeConsistence
+          })
+          if(that.data.pageIndex==1){
+            that.setData({
+              pageIndex:2
+            })
+          }
+        }
       }
     })
   },

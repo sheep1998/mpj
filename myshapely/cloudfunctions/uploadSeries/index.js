@@ -29,6 +29,12 @@ exports.main = async (event, context) => {
 
 async function create(event){
   const db = cloud.database()
+  var serverTime = new Date().getTime()+""
+  await db.collection("global").doc("global").update({
+    data:{uploadSeries: serverTime},
+    success: function (res) { return res.data }
+  })
+
   var entity = event.entity
   entity.uploadTime = db.serverDate()
   try{
@@ -45,6 +51,20 @@ async function create(event){
 
 async function pageRead(event){
   const db = cloud.database()
+  var getTime = event.timeConsistence
+  var globalRes = await db.collection("global").doc("global").get({
+    success: function (res) { return res.data }
+  })
+  var uploadSeries = globalRes.data.uploadSeries
+  console.log(getTime,uploadSeries)
+  if(getTime==uploadSeries){
+    return{
+      result:{
+        needFresh:false
+      }
+    }
+  }
+
   var filter = event.filter?event.filter:null
   var pageIndex = event.pageIndex?event.pageIndex:1
   var pageSize = event.pageSize? event.pageSize:10
@@ -60,6 +80,8 @@ async function pageRead(event){
   }
   return db.collection("series").where(filter).orderBy('uploadTime','desc').skip((pageIndex-1)*pageSize).limit(pageSize).get().then(res=>{
     res.hasMore = hasMore
+    res.needFresh = true
+    res.timeConsistence = uploadSeries
     return res
   })
 }
@@ -69,6 +91,11 @@ async function update(event){
   var _id = entity._id
   delete entity._id
   const db = cloud.database()
+  var serverTime = new Date().getTime() + ""
+  await db.collection("global").doc("global").update({
+    data: { uploadSeries: serverTime },
+    success: function (res) { return res.data }
+  })
   entity.uploadTime = db.serverDate()
 
   try{
@@ -100,6 +127,11 @@ async function updateProduct(event){
   var entity = event.entity
   var _id = entity._id
   const db = cloud.database()
+  var serverTime = new Date().getTime() + ""
+  await db.collection("global").doc("global").update({
+    data: { uploadSeries: serverTime },
+    success: function (res) { return res.data }
+  })
   try {
     return await db.collection("series").doc(_id).update({
       data: {
@@ -155,6 +187,12 @@ async function delSingle(_id) {
 async function del(event){
   const db = cloud.database()
   try{
+    var serverTime = new Date().getTime() + ""
+    await db.collection("global").doc("global").update({
+      data: { uploadSeries: serverTime },
+      success: function (res) { return res.data }
+    })
+
     var seriesRes = await db.collection("series").doc(event._id).get({
       success: function (res) {
         return res.data
@@ -174,6 +212,7 @@ async function del(event){
       })
     }
 
+    //to be optimized
     await db.collection("series").doc(event._id).remove({
       success:function(res){}
     })

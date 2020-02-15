@@ -21,6 +21,31 @@
 </view>
 
 <view class="item-container">
+  <view class="title">价格</view>
+  <view class="input-choose-container">
+    <view class="title">原价</view>
+    <input value='{{entity.prices[0].price}}' bindinput="inputPrice0"></input>
+    <view class="btn" bindtap="showPrice0">
+      <icon style="font-size:45rpx;color:{{entity.prices[0].show?'green':'grey'}}" class="iconfont icon-choose"></icon>
+    </view>
+  </view>
+  <view class="input-choose-container">
+    <view class="title" style="color:#fe5400">会员价</view>
+    <input value='{{entity.prices[1].price}}' bindinput="inputPrice1"></input>
+    <view class="btn" bindtap="showPrice1">
+      <icon style="font-size:45rpx;color:{{entity.prices[1].show?'green':'grey'}}" class="iconfont icon-choose"></icon>
+    </view>
+  </view>
+  <view class="input-choose-container">
+    <view class="title" style="color:red">秒杀价</view>
+    <input value='{{entity.prices[2].price}}' bindinput="inputPrice2"></input>
+    <view class="btn" bindtap="showPrice2">
+      <icon style="font-size:45rpx;color:{{entity.prices[2].show?'green':'grey'}}" class="iconfont icon-choose"></icon>
+    </view>
+  </view>
+</view>
+
+<view class="item-container">
   <view id="sticky-head" class="sticky-container">
     <view class="add-color">
       <view class="title">颜色</view>
@@ -84,6 +109,11 @@
       <icon style="font-size:55rpx;color:red" class="iconfont icon-del"></icon>
     </view>
   </view>
+</view>
+
+<view class="item-container" style="display:flex;flex-direction:row;align-items:center">
+  <view class="title">显示</view>
+  <radio style="margin-left:30rpx;transform:scale(0.8);" bindtap="changeShow" checked="{{entity.show}}"></radio>
 </view>
 
 <view class="padding"></view>

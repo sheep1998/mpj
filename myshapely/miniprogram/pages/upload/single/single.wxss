@@ -24,6 +24,36 @@
   border-bottom: 1px solid #e2e2e2;
 }
 
+.item-container .input-choose-container{
+  line-height: 60rpx;
+  height:60rpx;
+  font-size:35rpx;
+  display: flex;
+  flex-direction: row;
+  margin-top:30rpx;
+  align-items:center;
+}
+
+.item-container .input-choose-container .title{
+  width:150rpx;
+  color:black;
+}
+
+.item-container .input-choose-container input{
+  width:200rpx;
+  height:50rpx;
+  border-bottom: 1px solid #e2e2e2;
+  text-align: center;
+}
+
+.item-container .input-choose-container .btn{
+  width:120rpx;
+  height:60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .item-container textarea{
   height:300rpx;
   background-color: aliceblue;
@@ -144,35 +174,7 @@
 }
 
 
-.item-container .input-choose-container{
-  line-height: 60rpx;
-  height:60rpx;
-  font-size:35rpx;
-  display: flex;
-  flex-direction: row;
-  margin-top:30rpx;
-  align-items:center;
-}
 
-.item-container .input-choose-container .title{
-  width:150rpx;
-  color:black;
-}
-
-.item-container .input-choose-container input{
-  width:200rpx;
-  height:50rpx;
-  border-bottom: 1px solid #e2e2e2;
-  text-align: center;
-}
-
-.item-container .input-choose-container .btn{
-  width:120rpx;
-  height:60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .padding{
   width:100%;

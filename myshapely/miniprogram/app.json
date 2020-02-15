@@ -3,22 +3,10 @@
     "pages/homepage/homepage",
     "pages/upload/upload",
     "pages/upload/single/single",
-    
     "pages/upload/series/series",
-    
     "pages/location/location",
     "pages/contact/contact",
-    "pages/userBinding/userBinding",
-    "pages/index/index",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/openapi/openapi",
-    "pages/openapi/serverapi/serverapi",
-    "pages/openapi/callback/callback",
-    "pages/openapi/cloudid/cloudid"
+    "pages/userBinding/userBinding"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
