@@ -21,6 +21,9 @@ exports.main = async (event, context) => {
     case "pageRead":{
       return pageRead(event)
     }
+    case "getSeries":{
+      return getSeries(event)
+    }
     default: {
       return
     }
@@ -244,4 +247,62 @@ async function delPic(fileIDs){
     fileList: fileIDs,
   })
   return result.fileList
+}
+
+async function getSeries(event) {
+  const db = cloud.database()
+  var getTime = event.timeConsistence
+  var globalRes = await db.collection("global").doc("global").get({
+    success: function (res) { return res.data }
+  })
+  var uploadSeries = globalRes.data.uploadSeries
+  console.log(getTime, uploadSeries)
+  if (getTime == uploadSeries) {
+    return {
+      result: {
+        needFresh: false
+      }
+    }
+  }
+  
+  var filter = event.filter ? event.filter : null
+  var pageIndex = event.pageIndex ? event.pageIndex : 1
+  var pageSize = event.pageSize ? event.pageSize : 10
+  const countResult = await db.collection("series").where(filter).count()
+  console.log(countResult)
+  const total = countResult.total
+  const totalPage = Math.ceil(total / pageSize)
+  var hasMore
+  if (pageIndex > totalPage || pageIndex == totalPage) {
+    hasMore = false
+  } else {
+    hasMore = true
+  }
+  
+  var seriesRes = await db.collection("series").where(filter).orderBy('uploadTime', 'desc').skip((pageIndex - 1) * pageSize).limit(pageSize).get({
+    success:function(res){
+      return res.data
+    }
+  })
+  var series = seriesRes.data
+
+  for(var i=0;i<series.length;i++){
+    var products = series[i].products
+    for(var j=0;j<products.length;j++){
+      var id = products[j]
+      var singleRes = await db.collection("single").doc(id).get({
+        success: function (res) {
+          return res.data
+        }
+      })
+      products[j] = singleRes.data
+    }
+  }
+
+  return {
+    timeConsistence:uploadSeries,
+    hasMore : hasMore,
+    needFresh:true,
+    series:series
+  }
 }

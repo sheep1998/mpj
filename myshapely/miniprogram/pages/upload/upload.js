@@ -178,7 +178,6 @@ Page({
         pageSize: that.data.pageSize
       },
       success: res => {
-        console.log(res)
         if(res.result.needFresh){
           that.setData({
             series: res.result.data,

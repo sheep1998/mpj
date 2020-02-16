@@ -12,6 +12,7 @@ Page({
     openAccount:false,
     selectedCategory:0,
     toView:"cc",//所选大类
+    cid:-1,
     sid:-1,//小类
     categories:[],
     userInfo:{}
@@ -29,7 +30,7 @@ Page({
 
   selectCategory:function(e){
     const index = e.currentTarget.dataset.index;
-    let cid = 'c'+this.data.categories[index].id
+    let cid = this.data.categories[index].id
     if ('c' +this.data.categories[index].id!=this.data.toView){
       this.setData({
         sid:-1
@@ -37,7 +38,8 @@ Page({
     }
     this.setData({
       openCategory:!this.data.openCategory,
-      toView:cid,
+      toView: 'c' +cid,
+      cid:cid
     })
     
   },
@@ -62,15 +64,26 @@ Page({
     if(this.data.toView==e.currentTarget.id){
       this.setData({
         toView:"cc",
+        cid:-1,
         sid:-1
       })
     }
     else{
       this.setData({
         toView:e.currentTarget.id,
+        cid:e.currentTarget.dataset.cid,
         sid:-1
       })
     }
+  },
+
+  toProductPage:function(e){
+    this.setData({
+      sid: e.currentTarget.dataset.sid
+    })
+    wx.navigateTo({
+      url: '../product/product?category=' + this.data.cid + "&&subCate=" + e.currentTarget.dataset.sid,
+    })
   },
 
   openCategory:function(){

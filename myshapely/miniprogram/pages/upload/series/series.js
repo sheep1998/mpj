@@ -54,6 +54,7 @@ Page({
     }
     else if(func== 'update'){
       var entity = JSON.parse(options.entity)
+      console.log(entity)
       var caree = entity.cares
       for(var i=0;i<caree.length;i++){
         for(var j=0;j<tmpCares.length;j++){
@@ -294,15 +295,7 @@ Page({
               }))
             }
             else{
-              tmpCares = JSON.parse(JSON.stringify(cares.cares))
-              var caree = entity.cares
-              for (var i = 0; i < caree.length; i++) {
-                for (var j = 0; j < tmpCares.length; j++) {
-                  if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
-                }
-              }
-              entity.cares = tmpCares
-              if (entity.match.length == 0) entity.match = [""]
+              
               wx.cloud.callFunction({
                 name: "uploadSeries",
                 data: {
@@ -310,7 +303,15 @@ Page({
                   func: "update"
                 },
                 success: res => {
-                  wx.hideLoading()
+                  tmpCares = JSON.parse(JSON.stringify(cares.cares))
+                  var caree = entity.cares
+                  for (var i = 0; i < caree.length; i++) {
+                    for (var j = 0; j < tmpCares.length; j++) {
+                      if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+                    }
+                  }
+                  entity.cares = tmpCares
+                  if (entity.match.length == 0) entity.match = [""]
                   that.setData({
                     entity: entity,
                     //edit: false,
@@ -339,15 +340,7 @@ Page({
             success: res => {
               entity.longPicUrl = res.fileID
               reslove()
-              tmpCares = JSON.parse(JSON.stringify(cares.cares))
-              var caree = entity.cares
-              for (var i = 0; i < caree.length; i++) {
-                for (var j = 0; j < tmpCares.length; j++) {
-                  if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
-                }
-              }
-              entity.cares = tmpCares
-              if (entity.match.length == 0) entity.match = [""]
+              
               wx.cloud.callFunction({
                 name: "uploadSeries",
                 data: {
@@ -355,6 +348,15 @@ Page({
                   func: "update"
                 },
                 success: res => {
+                  tmpCares = JSON.parse(JSON.stringify(cares.cares))
+                  var caree = entity.cares
+                  for (var i = 0; i < caree.length; i++) {
+                    for (var j = 0; j < tmpCares.length; j++) {
+                      if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+                    }
+                  }
+                  entity.cares = tmpCares
+                  if (entity.match.length == 0) entity.match = [""]
                   wx.hideLoading()
                   that.setData({
                     entity: entity,
@@ -372,15 +374,7 @@ Page({
         }))
       }
       else{
-        tmpCares = JSON.parse(JSON.stringify(cares.cares))
-        var caree = entity.cares
-        for (var i = 0; i < caree.length; i++) {
-          for (var j = 0; j < tmpCares.length; j++) {
-            if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
-          }
-        }
-        entity.cares = tmpCares
-        if (entity.match.length == 0) entity.match = [""]
+        
         wx.cloud.callFunction({
           name: "uploadSeries",
           data: {
@@ -388,6 +382,15 @@ Page({
             func: "update"
           },
           success: res => {
+            tmpCares = JSON.parse(JSON.stringify(cares.cares))
+            var caree = entity.cares
+            for (var i = 0; i < caree.length; i++) {
+              for (var j = 0; j < tmpCares.length; j++) {
+                if (caree[i] == tmpCares[j].id) tmpCares[j].show = true
+              }
+            }
+            entity.cares = tmpCares
+            if (entity.match.length == 0) entity.match = [""]
             wx.hideLoading()
             that.setData({
               entity: entity,
