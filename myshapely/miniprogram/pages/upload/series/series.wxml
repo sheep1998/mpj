@@ -20,7 +20,7 @@
       </view>
     </view>
 
-    <view class="item-container">
+    <view class="item-container" hidden="{{true}}">
       <view class="title">价格</view>
       <view class="input-choose-container">
         <view class="title">原价</view>

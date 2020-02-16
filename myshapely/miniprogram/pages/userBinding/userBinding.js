@@ -170,7 +170,9 @@ Page({
     this.setData({
       handNumberHidden: false
     })
+    console.log(wx.cloud.CloudID(e.detail.cloudID))
     wx.cloud.callFunction({
+      
       name:'getPhone',
       data:{
         weRunData: wx.cloud.CloudID(e.detail.cloudID), // 这个 CloudID 值到云函数端会被替换
@@ -179,15 +181,17 @@ Page({
         }
       }
     }).then(res=>{
+      console.log("res",res)
+      this.setData({
+        phoneNumber: res.result.phoneNumber,
+        changePhone: 1
+      })
       wx.showToast({
         title: '手机号获取成功',
         duration: 1500,
         icon: 'none'
       })
-      this.setData({
-        phoneNumber: res.result.event.weRunData.data.phoneNumber,
-        changePhone:1
-      })
+      
       
     }).catch(err=>{
       console.log("手机号获取失败",err)

@@ -51,7 +51,7 @@ Page({
 
   confirmCate:function(){
     this.setData({
-      categoryChosen: this.data.tmp1,
+      categoryChosen: this.data.tmp1, 
       subCateChosen: this.data.tmp2,
       categoryChooserHidden: true
     })
@@ -149,7 +149,9 @@ Page({
       categories: categoryData.categories,
       subCates: categoryData.categories[0].subCates,
       categoryChosen: categoryData.categories[0],
-      subCateChosen: categoryData.categories[0].subCates[0]
+      subCateChosen: categoryData.categories[0].subCates[0],
+      tmp1: categoryData.categories[0],
+      tmp2: categoryData.categories[0].subCates[0],
     })
   },
 

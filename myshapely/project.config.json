@@ -8,9 +8,9 @@
 		"minified": true,
 		"newFeature": true
 	},
-	"appid": "wxa3286db5a1b3e9ba",
+	"appid": "wx387889e0e7ebde95",
 	"projectname": "MiShape",
-	"libVersion": "2.2.5",
+	"libVersion": "2.10.1",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",

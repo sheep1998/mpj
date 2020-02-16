@@ -15,14 +15,18 @@
 }
 
 .header .cate{
-  width:600rpx;
+  width:500rpx;
+  height:100rpx;
   line-height:100rpx;
   font-size: 40rpx;
   font-weight:600
 }
 
-.head .plus{
-  
+.header .plus{
+  width:200rpx;
+  text-align:center;
+  height:100rpx;
+  line-height: 100rpx;
 }
 
 .body{

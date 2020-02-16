@@ -14,7 +14,7 @@
 <view class="input-container">
   <view class="{{changePhone==1?'hint':'nhint'}}">手机</view>
   <view class="main">
-    <input hidden="{{handNumberHidden}}" class="{{select==3?'active-class':'deactive-class'}}" value='{{phoneNumber}}' placeholder='手机' bindfocus="focus1" bindblur="blur2" bindinput="input2" data-index="3" ></input>
+    <input style="height:60rpx;line-height:60rpx;" hidden="{{handNumberHidden}}" class="{{select==3?'active-class':'deactive-class'}}" value='{{phoneNumber}}' placeholder='手机' bindfocus="focus1" bindblur="blur2" bindinput="input2" data-index="3" ></input>
     <button class="input-box" hidden="{{!handNumberHidden}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">手机</button>
   </view>
   <view class="{{warnPhone==1?'warn':'nwarn'}}">请输入有效的手机号</view>

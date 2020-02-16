@@ -15,7 +15,6 @@
 }
 
 .input-container{
-  height:140rpx;
   padding-left:25rpx;
   padding-right:25rpx;
   margin-bottom:50rpx
@@ -37,8 +36,7 @@
 
 .input-container .main{
   z-index:1;
-  line-height: 60rpx;
-  height:60rpx;
+  
   font-size:35rpx;
 }
 
@@ -93,7 +91,8 @@
 
 .input-box{
   border-bottom: 1px solid #e2e2e2;
-  height:80rpx;
+  height:60rpx;
+  line-height:60rpx;
   font-size:35rpx;
   color:#777777;
   text-align: left;

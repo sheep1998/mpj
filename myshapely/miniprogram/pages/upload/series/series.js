@@ -17,7 +17,7 @@ Page({
     entity:{
       name:"",
       //原价，会员价，秒杀价
-      prices: [{ price: '', show: true }, { price: '', show: true }, { price: '', show: true }],
+      prices: [{ price: '', show: false }, { price: '', show: false }, { price: '', show: false }],
       cares:[],
       match: [""],
       widePicUrl: "",

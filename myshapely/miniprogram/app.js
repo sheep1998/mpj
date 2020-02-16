@@ -77,7 +77,7 @@ App({
     categories: [
       {
         id: 1,
-        url: "cloud://myshapely-v1.6d79-myshapely-v1-1259751623/homepage_1.jpg",
+        url: "cloud://myshapely-onrlb.6d79-myshapely-onrlb-1301300264/homepage_1.jpg",
         name: "女士",
         subCates: [
           {
@@ -120,7 +120,7 @@ App({
       },
       {
         id: 2,
-        url: "cloud://myshapely-v1.6d79-myshapely-v1-1259751623/homepage_2.jpg",
+        url: "cloud://myshapely-onrlb.6d79-myshapely-onrlb-1301300264/homepage_2.jpg",
         name: "男士",
         subCates: [
           {
@@ -147,7 +147,7 @@ App({
       },
       {
         id: 3,
-        url: "cloud://myshapely-v1.6d79-myshapely-v1-1259751623/homepage_3.jpg",
+        url: "cloud://myshapely-onrlb.6d79-myshapely-onrlb-1301300264/homepage_3.jpg",
         name: "养护产品",
         subCates: [
           {
