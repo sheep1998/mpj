@@ -69,7 +69,7 @@
 
     <view style="color:#777777" class="title">库存</view>
     <view class="storage-container">
-      <view wx:for="{{entity.colors[colorIndex].storages}}" wx:key="key" class="storage">
+      <view wx:for="{{shownStorages}}" wx:key="key" class="storage">
         <view class="type">{{item.type}}</view>
         <input data-index="{{index}}" bindinput="inputStorage" value="{{item.num}}" placeholder="数量"></input>
       </view>

@@ -23,6 +23,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    saving:false,
     title:"创建账户",
     name:"",
     select:0,
@@ -45,6 +46,14 @@ Page({
   },
 
   save:function(){
+    if(this.data.saving) {
+      wx.showToast({
+        title: '正在保存',
+        icon:'none',
+        duration:1500
+      })
+      return
+    }
     if (this.data.name == "" || this.data.phoneNumber.length != 11||this.data.birthday=="生日"){
       wx.showToast({
         title: '请完善信息',
@@ -56,10 +65,14 @@ Page({
     //做验证
     console.log(this.data.name,this.data.phoneNumber,this.data.birthday)
     const db = wx.cloud.database();
+    var that = this
     if(!app.globalData.userInfo.bind){
+      this.setData({
+        saving:true
+      })
       console.log("register")
       wx.showLoading({
-        title: '加载中...',
+        title: '绑定中...',
       })
       wx.cloud.callFunction({
         name: "register",
@@ -77,6 +90,9 @@ Page({
               title: '用户已绑定',
               icon: 'none',
               duration: 1500
+            })
+            that.setData({
+              saving:false
             })
             return
           }
@@ -96,6 +112,9 @@ Page({
             userInfo.bind = true
             userInfo.id = res.result._id
             app.globalData.userInfo = userInfo
+            that.setData({
+              saving:false
+            })
 
             prevPage.setData({
               userInfo: userInfo
@@ -106,10 +125,16 @@ Page({
           }
         }, fail: err => {
           console.log(err)
+          that.setData({
+            saving: false
+          })
         }
       })
     }
     else{
+      this.setData({
+        saving: true
+      })
       console.log("update")
       wx.cloud.callFunction({
         name: "register",
@@ -124,6 +149,9 @@ Page({
           console.log("用户信息修改", res)
           if (res.result.errMsg == "document.update:ok") {
             console.log("用户信息修改成功")
+            that.setData({
+              saving: false
+            })
             wx.showToast({
               title: '修改成功',
               duration: 1500,
@@ -144,6 +172,9 @@ Page({
           }
           else{
             //发送信息到控制台
+            that.setData({
+              saving: false
+            })
             wx.showToast({
               title: '用户信息修改失败',
               icon:'none',
@@ -152,6 +183,9 @@ Page({
           }
         }, fail: err => {
           console.log(err)
+          that.setData({
+            saving: false
+          })
         }
       })
     }

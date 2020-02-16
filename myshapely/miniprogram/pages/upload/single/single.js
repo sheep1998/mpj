@@ -27,11 +27,13 @@ Page({
       show:true
     },
     backup:{},
+    saving:false,
     init:false,
     addColorHidden:true,
     inputColorFocus:false,
     tmpColor:"",
     tmpStorage:{},
+    shownStorages:{},
     colorIndex:0,
     shownColorImages:[],
     canDelColorImages:true,
@@ -85,7 +87,9 @@ Page({
       console.log(entity)
       this.setData({
         entity:entity,
+        tmpStorage:tmpStorage,
         shownColorImages:entity.colors[0].images,
+        shownStorages:entity.colors[0].storages,
         shownIntroImages:entity.introImages
       })
     }
@@ -199,7 +203,8 @@ Page({
       addColorHidden:true,
       tmpColor:"",
       inputColorFocus:false,
-      shownColorImages:[]
+      shownColorImages:[],
+      shownStorages: JSON.parse(JSON.stringify(this.data.tmpStorage))
     })
   },
 
@@ -212,9 +217,13 @@ Page({
       })
       return
     }
+    var entity = this.data.entity
+    entity.colors[this.data.colorIndex].storages = this.data.shownStorages
     var index = e.currentTarget.dataset.index
     this.setData({
-      colorIndex: index
+      colorIndex: index,
+      entity:entity,
+      shownStorages: JSON.parse(JSON.stringify(this.data.entity.colors[index].storages))
     })
     if(this.data.entity.colors[index].images==[]){
       this.setData({
@@ -353,12 +362,12 @@ Page({
   inputStorage:function(e){
     var index = e.currentTarget.dataset.index
 
-    var entity = this.data.entity
+    var shownStorages = this.data.shownStorages
 
-    entity.colors[this.data.colorIndex].storages[index].num = parseInt(e.detail.value)
+    shownStorages[index].num = parseInt(e.detail.value)
 
     this.setData({
-      entity:entity
+      shownStorages:shownStorages
     })
   },
 
@@ -522,6 +531,14 @@ Page({
   },
 
   save:function(){
+    if(this.data.saving){
+      wx.showToast({
+        title: '正在保存',
+        icon:'none',
+        duration:1500
+      })
+      return
+    }
     let entity = JSON.parse(JSON.stringify(this.data.entity))
     if(entity.name==""){
       wx.showToast({
@@ -600,6 +617,9 @@ Page({
       wx.showLoading({
         title: '保存中',
       })
+      this.setData({
+        saving:true
+      })
       if(this.data.init){
         var that = this
         wx.cloud.callFunction({
@@ -613,12 +633,26 @@ Page({
             console.log("add", res)
             entity._id = res.result._id
             that.setData({
-              backup: that.data.entity
+              backup: that.data.entity,
+              saving:false
             })
             wx.showToast({
               title: '保存成功',
               icon:'none',
               duration:1500
+            })
+            wx.navigateBack({
+              delta: 1
+            })
+          }, fail: err => {
+            console.log(err)
+            wx.showToast({
+              title: '保存失败',
+              icon: 'none',
+              duration: 1500
+            })
+            that.setData({
+              saving: false
             })
           }
         })
@@ -634,12 +668,26 @@ Page({
           success: res => {
             wx.hideLoading()
             that.setData({
-              backup: that.data.entity
+              backup: that.data.entity,
+              saving:false
             })
             wx.showToast({
               title: '保存成功',
               icon: 'none',
               duration: 1500
+            })
+            wx.navigateBack({
+              delta: 1
+            })
+          }, fail: err => {
+            console.log(err)
+            wx.showToast({
+              title: '保存失败',
+              icon: 'none',
+              duration: 1500
+            })
+            that.setData({
+              saving: false
             })
           }
         })

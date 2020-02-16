@@ -64,7 +64,8 @@ Page({
       if(entity.match.length==0)entity.match=[""]
       this.setData({
         showIndex:2,
-        entity:entity
+        entity:entity,
+        edit:true
       })
     }
   },
@@ -82,11 +83,11 @@ Page({
   },
 
   editOrSave:function(){
-    var edit = this.data.edit
-    this.setData({
-      edit: !edit
-    })
-    if(!edit) return
+    //var edit = this.data.edit
+    //this.setData({
+    //  edit: !edit
+    //})
+    //if(!edit) return
     
     if (this.data.firstEdit) {
       this.firstSave()
@@ -185,7 +186,7 @@ Page({
                     entity.cares = tmpCares
                     that.setData({
                       entity:entity,
-                      edit:false,
+                      //edit:false,
                       firstEdit:false,
                       widePicChange:false,
                       longPicChange:false,
@@ -278,7 +279,7 @@ Page({
                         wx.hideLoading()
                         that.setData({
                           entity: entity,
-                          edit: false,
+                          //edit: false,
                           backup: entity,
                           widePicChange: false,
                           longPicChange: false
@@ -312,7 +313,7 @@ Page({
                   wx.hideLoading()
                   that.setData({
                     entity: entity,
-                    edit: false,
+                    //edit: false,
                     backup: entity,
                     widePicChange: false,
                     longPicChange: false
@@ -357,7 +358,7 @@ Page({
                   wx.hideLoading()
                   that.setData({
                     entity: entity,
-                    edit: false,
+                    //edit: false,
                     backup: entity,
                     widePicChange: false,
                     longPicChange: false
@@ -390,7 +391,7 @@ Page({
             wx.hideLoading()
             that.setData({
               entity: entity,
-              edit: false,
+              //edit: false,
               backup: entity,
               widePicChange: false,
               longPicChange: false
