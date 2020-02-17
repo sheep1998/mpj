@@ -1,0 +1,43 @@
+<template name="goodItemCard1" >
+  <view class="card-container1">
+    <view class="pic-container">
+      <image mode="widthFix" src="{{pic}}"></image>
+    </view>
+    <view class="text-container">
+      <view class="title">
+        <view wx:for="{{title}}" wx:key="key" style="display:flex;flex-direction:row">
+          <view>{{item}}</view>
+          <view hidden="{{index==title.length-1}}">/</view>
+        </view>
+      </view>
+      <view class="name">{{name}}</view>
+      <view class="prices-container">
+        <view hidden="{{prices.length==0}}">￥{{prices[0].price}}.00 </view>
+        <view style="margin-left:20rpx;color:#fe5400" hidden="{{!prices[1].show}}">会员价 ￥{{prices[1].price}}.00 </view>
+        <view style="margin-left:20rpx;color:red" hidden="{{!prices[2].show||prices[1].show}}">秒杀价 ￥{{prices[2].price}}.00 </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<template name="goodItemCard2" >
+  <view class="card-container2">
+    <view class="pic-container">
+      <image src="{{pic}}"></image>
+    </view>
+    <view class="text-container">
+      <view class="title">
+        <view wx:for="{{title}}" wx:key="key" style="display:flex;flex-direction:row">
+          <view>{{item}}</view>
+          <view hidden="{{index==title.length-1}}">/</view>
+        </view>
+      </view>
+      <view class="name">{{name}}</view>
+      <view class="prices-container">
+        <view hidden="{{prices.length==0}}">￥{{prices[0].price}}.00 </view>
+        <view style="margin-left:20rpx;color:#fe5400" hidden="{{!prices[1].show}}">会员价 ￥{{prices[1].price}}.00 </view>
+        <view style="margin-left:20rpx;color:red" hidden="{{!prices[2].show||prices[1].show}}">秒杀价 ￥{{prices[2].price}}.00 </view>
+      </view>
+    </view>
+  </view>
+</template>

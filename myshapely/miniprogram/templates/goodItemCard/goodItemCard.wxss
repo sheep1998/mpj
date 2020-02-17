@@ -1,0 +1,93 @@
+
+
+.card-container1{
+  width:750rpx;
+}
+
+.card-container1 .pic-container{
+  width:100%;
+}
+
+.card-container1 .pic-container image{
+  width:100%
+}
+
+.card-container1 .text-container{
+  padding-left:15rpx;
+  padding-top:10rpx;
+  padding-bottom: 30rpx;
+}
+
+.card-container1 .text-container .title{
+  display:flex;
+  flex-direction: row;
+  height:35rpx;
+  line-height: 35rpx;
+  font-size:28rpx;
+  font-weight:bold;
+  letter-spacing: 2rpx;
+  font-stretch: ultra-expanded
+}
+
+.card-container1 .text-container .name{
+  line-height:35rpx;
+  height:35rpx;
+  font-size:22rpx;
+  font-stretch: extra-expanded
+}
+
+.card-container1 .text-container .prices-container{
+  display: flex;
+  flex-direction: row;
+  font-size:20rpx;
+  height:30rpx;
+  line-height: 30rpx;
+}
+
+.card-container2{
+  width:330rpx;
+  padding-top:10rpx;
+  margin-left:30rpx;
+}
+
+.card-container2 .pic-container{
+  width:330rpx;
+}
+
+.card-container2 .pic-container image{
+  width:330rpx;
+  height:460rpx;
+}
+
+.card-container2 .text-container{
+  padding-top:10rpx;
+  padding-bottom: 30rpx;
+}
+
+.card-container2 .text-container .title{
+  display:flex;
+  flex-direction: row;
+  height:35rpx;
+  line-height: 35rpx;
+  font-size:28rpx;
+  font-weight:bold;
+  letter-spacing: 2rpx;
+  font-stretch: ultra-expanded
+}
+
+.card-container2 .text-container .name{
+  line-height:35rpx;
+  height:35rpx;
+  font-size:22rpx;
+  font-stretch: extra-expanded;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.card-container2 .text-container .prices-container{
+  display: flex;
+  flex-direction: row;
+  font-size:20rpx;
+  height:30rpx;
+  line-height: 30rpx;
+}

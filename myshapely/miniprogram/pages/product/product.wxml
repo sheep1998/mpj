@@ -1,2 +1,66 @@
 <!--miniprogram/pages/product/product.wxml-->
-<text>miniprogram/pages/product/product.wxml</text>
+<import src="../../templates/goodItemCard/goodItemCard.wxml" />
+<view class="header">
+  <scroll-view class="subCate_list" scroll-x scroll-with-animation scroll-left="{{row_scrollTop}}">
+    <view wx:for="{{subCates}}" class="{{subCate===item.id?'selected_subCate':'subCate_item'}}" data-index='{{index}}' data-id='{{item.id}}' bindtap='selectSubCate' wx:key="key" wx:for-index="index">{{item.name}}</view>
+  </scroll-view>
+</view>
+
+<view class="goodItem-container">
+  <view wx:for="{{tmpSeries}}" wx:for-index="index" wx:key="key" > 
+    <template wx:if="{{item.mode=='series'}}" is="goodItemCard1" data="{{...item}}"></template>
+    <template wx:if="{{item.mode=='single'}}" is="goodItemCard2" data="{{...item}}"></template>
+  </view>
+</view>
+
+
+<view hidden="{{!openCategory&&!openAccount}}" catchtap="closeBg" class="bg">
+  <view hidden="{{!openCategory}}" catchtap="catchClose" class="category-scroll-container">
+    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" scroll-into-view="{{toView}}">
+      <view id="cc" class="padding"></view>
+      <view hidden="{{toView!='cc'}}" class="padding"></view>
+      <view hidden="{{toView!='cc'}}" class="padding"></view>
+      <view wx:for="{{categories}}" wx:for-item="category" wx:for-index="categoryIndex" wx:key="key">
+        <view id="{{'c'+category.id}}" data-cid="{{category.id}}" catchtap="chooseCbtn" class="cbtn" hover-class="hover-btn">{{category.name}}</view>
+        <view hidden="{{toView!='c'+category.id}}">
+          <view wx:for="{{category.subCates}}" wx:for-item="subCate" wx:for-index="subCateIndex" wx:key="key" class="{{subCate.id==0?'new':'sbtn'}}" style="{{sid==subCate.id?'font-size:35rpx;font-weight:bold':''}}" hover-class="hover-btn" catchtap="toProductPage" data-sid="{{subCate.id}}">{{subCate.name}}</view> 
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view hidden="{{!openAccount}}" catchtap="catchClose" class="myAccount-container">
+    <view hidden="{{!userInfo.bind}}">
+      <view class="avatar-container">
+        <view class="avatar">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <view class="title">{{userInfo.name}}</view>
+      </view>
+      <view class="item" hover-class="hover-btn" >我的订单</view>
+      <view class="item" hover-class="hover-btn" catchtap="register">个人信息</view>
+      <view class="item" hover-class="hover-btn" catchtap="toContact">联系我们</view>
+      <view wx:if="{{userInfo.xm}}" class="item" hover-class="hover-btn" catchtap="uploadProduct">商品管理</view>
+    </view>
+    
+    <view hidden="{{userInfo.bind}}">
+      <view class="avatar-container">
+        <view class="avatar">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <view class="title" catchtap="register">登入</view>
+      </view>
+      <view class="item" hover-class="hover-btn"  catchtap="toContact">联系我们</view>
+    </view>
+  </view>
+</view>
+
+<view class="tab-container">
+  <view class="icon-container">
+    <icon class="iconfont icon-shoppingCart"></icon>
+  </view>
+  <view catchtap="openCategory" class="{{openCategory?'chosenTab':'tab'}}">菜单</view>
+  <view class="icon-container">
+    <icon class="iconfont icon-account" style="font-weight:bold" catchtap="openAccount"></icon>
+  </view>
+</view>
