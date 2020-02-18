@@ -8,6 +8,8 @@ Page({
    */
   data: {
     //产品分类页面数据
+    statusBarHeight :0,
+    navbarTitle:"",
     row_scrollTop: 0,
     subCates:[],
     needChange:false,
@@ -27,8 +29,35 @@ Page({
     cid: -1,
     sid: -1,//小类
     categories: [],
-    userInfo: {}
+    userInfo: {},
+    //产品页面
+    singlePage:{
+      show: false,
+      seriesIndex:0,
+      curIndex:0,
+    }
+
   },
+
+  changeSingle:function(e){
+    var singlePage = this.data.singlePage
+    singlePage.seriesIndex = e.detail.current
+    var series = this.data.series
+    series[e.detail.current].singleIndex = 0
+    this.setData({
+      singlePage: singlePage,
+      series:series
+    })
+  },
+
+  swiperImage:function(e){
+    var series = this.data.series
+    series[this.data.singlePage.seriesIndex].imageIndex = e.detail.current
+    this.setData({
+      series:series
+    })
+  },
+
 
   /**
    * 生命周期函数--监听页面加载
@@ -39,18 +68,25 @@ Page({
     //var subCate = options.subCate
     for (var i = 0; i < categoryData.categories.length; i++) {
       if (this.data.category == categoryData.categories[i].id) {
-        wx.setNavigationBarTitle({
-          title: categoryData.categories[i].name
+        this.setData({
+          navbarTitle: categoryData.categories[i].name
         })
         break
       }
     }
     this.setData({
+      statusBarHeight: wx.getSystemInfoSync()['statusBarHeight'],
       categories: categoryData.categories,
     })
     
 
     //this.initSeries(this.data.category,this.data.subCate)
+  },
+
+  back:function(){
+    wx.navigateBack({
+      delta:1
+    })
   },
 
   selectSubCate:function(e){
@@ -223,6 +259,39 @@ Page({
     })
   },
 
+  toSingle:function(e){
+    var index = e.currentTarget.dataset.index
+    var tmpSingle = this.data.tmpSeries[index]
+    var singlePage = this.data.singlePage
+    var series = this.data.series
+    
+    singlePage.seriesIndex = tmpSingle.seriesIndex
+    series[tmpSingle.seriesIndex].singleIndex = tmpSingle.singleIndex
+    this.setData({
+      singlePage:singlePage,
+      series:series
+    })
+    var that = this
+    setTimeout(function(){
+      //var singlePage = this.data.singlePage
+      singlePage.show = true
+      that.setData({
+        singlePage: singlePage,
+      })
+    },300)
+    
+    //var single = this.data.series[tmpSingle.seriesIndex].products[tmpSingle.singleIndex]
+    //console.log(single)
+  },
+
+  closeSingle:function(){
+    var singlePage = this.data.singlePage
+    singlePage.show = false
+    this.setData({
+      singlePage: singlePage
+    })
+  },
+
   selectCategory: function (e) {
     const index = e.currentTarget.dataset.index;
     let cid = this.data.categories[index].id
@@ -277,8 +346,8 @@ Page({
     })
     for (var i = 0; i < categoryData.categories.length; i++) {
       if (this.data.cid == categoryData.categories[i].id) {
-        wx.setNavigationBarTitle({
-          title: categoryData.categories[i].name
+        this.setData({
+          navbarTitle: categoryData.categories[i].name
         })
         break
       }

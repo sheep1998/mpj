@@ -6,12 +6,38 @@
   position: sticky;
   top: 0;
   width: 100%;
-  height: 60rpx;
-  display: flex;
-  flex-direction: row;
   align-items:center;
   background-color:white;
 }
+
+.header .navbar{
+  height:46px;
+  width:750rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.header .navbar .title {
+  width: 550rpx;
+  height: 46px;
+  line-height: 46px;
+  text-align: center;
+  color: black;
+  font-size: 35rpx;
+  font-weight: bold;
+}
+
+.header .navbar .icon-container{
+  z-index:4;
+  height:46px;
+  width:100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size:25rpx;
+}
+
 
 .header .subCate_list{
   width: 100%;
@@ -54,16 +80,12 @@
   flex-wrap: wrap
 }
 
-
-
-
-
-
-
 .padding{
   width:100%;
   height:100rpx;
 }
+
+/* 菜单与用户 */
 
 .bg{
   display: block;
@@ -193,4 +215,140 @@
   text-align: center;
   font-size:30rpx;
   width:200rpx;
+}
+
+/* 产品页面 */
+.single{
+  display: block;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background-color:white;
+}
+
+.single .icon-container{
+  position: fixed;
+  align-items:center;
+  z-index:5;
+  width:80px;
+  height:80px;
+  font-size:40rpx;
+  justify-content: center;
+  display: flex;
+}
+
+@keyframes slidedown{
+    from{
+        transform:  translateY(0%);
+    }
+    to{
+        transform:  translateY(100%);
+        display: none
+    }
+    
+}
+ 
+@keyframes slideup{
+    from{
+        transform:  translateY(100%);
+    }
+    to{
+        transform:  translateY(0%);
+    }
+}
+
+.hide{
+  display: none;
+}
+
+.show{
+  animation: slideup 0.5s;
+  display: block;
+}
+
+.single .information-container{
+  z-index:4;
+}
+
+.single .information-container .name_prices{
+  width:750rpx;
+  padding-top:30rpx;
+  padding-left:40rpx;
+  padding-right: 40rpx;
+  padding-bottom:30rpx;
+}
+
+.single .information-container .name_prices .name{
+  padding-left:2rpx;
+  height:50rpx;
+  line-height:50rpx;
+  width:400rpx;
+  font-size:35rpx;
+  font-weight:bold;
+  letter-spacing: 2rpx;
+  font-stretch: extra-expanded
+}
+
+.single .information-container .name_prices .prices-container{
+  display: flex;
+  flex-direction: row;
+  height:40rpx;
+  line-height: 40rpx;
+  font-size:30rpx;
+}
+
+.single .information-container .add_cart{
+  padding-left: 40rpx;
+  display: flex;
+  flex-direction: row;
+  padding-bottom:60rpx;
+}
+
+.single .information-container .add_cart .add{
+  height:80rpx;
+  border:2rpx solid black;
+  line-height: 80rpx;
+  text-align: center;
+  font-size:35rpx;
+  font-weight:bold;
+  letter-spacing: 2rpx;
+  width:260rpx;
+}
+
+.single .information-container .add_cart .cart-container .i-container{
+  width:80rpx;
+  margin-left: 20rpx;
+  height:80rpx;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+
+.single .information-container .add_cart .cart-container{
+  margin-left: 150rpx;
+  width:260rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+}
+
+.single .information-container .intro{
+  padding-left: 40rpx;
+  font-size:28rpx;
+  padding-right: 40rpx;
+  width:670rpx;
+  padding-bottom: 80rpx;
+}
+
+.single .information-container .colors-title{
+  height:140rpx;
+  line-height: 140rpx;
+  font-size:45rpx;
+  font-weight: bold;
+  letter-spacing: 3rpx;
+  padding-left: 40rpx;
 }

@@ -1,13 +1,20 @@
 <!--miniprogram/pages/product/product.wxml-->
 <import src="../../templates/goodItemCard/goodItemCard.wxml" />
-<view class="header">
+
+<view class="header" style="padding-top:{{statusBarHeight}}px">
+  <view class="navbar">
+    <view class="icon-container" bindtap="back">
+      <icon class="iconfont icon-back" style="font-size:35rpx;color:black"></icon>
+    </view>
+    <view class="title">{{navbarTitle}}</view>
+  </view>
   <scroll-view class="subCate_list" scroll-x scroll-with-animation scroll-left="{{row_scrollTop}}">
     <view wx:for="{{subCates}}" class="{{subCate===item.id?'selected_subCate':'subCate_item'}}" data-index='{{index}}' data-id='{{item.id}}' bindtap='selectSubCate' wx:key="key" wx:for-index="index">{{item.name}}</view>
   </scroll-view>
 </view>
 
 <view class="goodItem-container">
-  <view wx:for="{{tmpSeries}}" wx:for-index="index" wx:key="key" > 
+  <view wx:for="{{tmpSeries}}" wx:for-index="index" wx:key="key" data-index="{{index}}" bindtap="toSingle"> 
     <template wx:if="{{item.mode=='series'}}" is="goodItemCard1" data="{{...item}}"></template>
     <template wx:if="{{item.mode=='single'}}" is="goodItemCard2" data="{{...item}}"></template>
   </view>
@@ -63,4 +70,45 @@
   <view class="icon-container">
     <icon class="iconfont icon-account" style="font-weight:bold" catchtap="openAccount"></icon>
   </view>
+</view>
+
+<!-- 产品页面 -->
+<view class="single {{singlePage.show?'show':'hide'}}" style="padding-top:{{statusBarHeight}}px">
+  <view class="icon-container" catchtap="closeSingle">
+    <icon class="iconfont icon-close" style="font-size:35rpx;color:black;font-weight:bold"></icon>
+  </view>
+  <swiper current="{{singlePage.seriesIndex}}" bindchange="changeSingle" style="height:100%">
+    <swiper-item wx:for="{{series}}" wx:key="key" wx:for-item="seriesItem">
+      <scroll-view scroll-y scroll-with-animation style='height:100%'>
+        <swiper indicator-dots="{{true}}" current="{{seriesItem.imageIndex?seriesItem.imageIndex:0}}" style="height:1040rpx"  vertical="{{true}}" bindchange="swiperImage">
+          <swiper-item wx:for="{{seriesItem.products[seriesItem.singleIndex?seriesItem.singleIndex:0].colors[seriesItem.colorIndex?seriesItem.colorIndex:0].images}}" wx:key="key" wx:for-item="imageItem">
+            <image style="width:750rpx;height:1040rpx;" src="{{imageItem}}"></image>
+          </swiper-item>
+        </swiper>
+        <view class="information-container">
+          <view class="name_prices">
+            <view class="name">{{seriesItem.products[seriesItem.singleIndex].name}}</view>
+            <view class="prices-container">
+              <view>￥{{seriesItem.products[seriesItem.singleIndex].prices[0].price}}.00 </view>
+              <view style="margin-left:20rpx;color:#fe5400" hidden="{{!seriesItem.products[seriesItem.singleIndex].prices[1].show}}">会员价 ￥{{seriesItem.products[seriesItem.singleIndex].prices[1].price}}.00 </view>
+              <view style="margin-left:20rpx;color:red" hidden="{{!seriesItem.products[seriesItem.singleIndex].prices[2].show}}">秒杀价 ￥{{seriesItem.products[seriesItem.singleIndex].prices[2].price}}.00 </view>
+            </view>
+          </view>
+          <view class="add_cart">
+            <view class="add">添加</view>
+            <view class="cart-container">
+              <view class="i-container">
+                <icon class="iconfont icon-shoppingCart" style="font-size:50rpx;"></icon>
+              </view>
+            </view>
+          </view>
+          <textarea disabled="{{true}}" auto-height="{{true}}" class="intro">
+            {{seriesItem.products[seriesItem.singleIndex].introduction}}
+          </textarea>
+          <view class="colors-title">{{seriesItem.products[seriesItem.singleIndex].colors.length}}种颜色</view>
+          <view style="height:500rpx;" class="padding"></view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
 </view>
