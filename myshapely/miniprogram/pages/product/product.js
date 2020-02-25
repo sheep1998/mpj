@@ -1,5 +1,6 @@
 // miniprogram/pages/product/product.js
 var categoryData = require('../../datas/categories.js');
+var sizes = require('../../datas/sizes.js');
 const app = getApp()
 Page({
 
@@ -35,15 +36,142 @@ Page({
       show: false,
       seriesIndex:0,
       curIndex:0,
+      topNum:0
+    },
+    //加入购物车
+    addCart:{
+      hidden: true,
+      storages:{},
+      messageText:false,
+      addCartSuccess:false
     }
+    
 
+  },
+
+  openAddCart:function(){
+    var addCart = this.data.addCart
+    var series = this.data.series
+    
+    var singleIndex = series[this.data.singlePage.seriesIndex].singleIndex
+    var colorIndex = series[this.data.singlePage.seriesIndex].colorIndex
+    var storages = series[this.data.singlePage.seriesIndex].products[singleIndex].colors[colorIndex].storages
+    var tmpStorages
+    if (series[this.data.singlePage.seriesIndex].category == 1 && series[this.data.singlePage.seriesIndex].subCate == 1) {
+      tmpStorages = sizes.cup
+    }
+    else {
+      tmpStorages = sizes.size
+    }
+    for(let tmpStorage of tmpStorages) tmpStorage.show = false
+    var messageText = false
+    var falseCnt = tmpStorages.length
+    for (let storage of storages){
+      for(let tmpStorage of tmpStorages ){
+        if(storage.type==tmpStorage.type){
+          tmpStorage.show = true
+          falseCnt = falseCnt-1
+          break;
+        }
+      }
+    }
+    if(falseCnt!=0) messageText = true
+    addCart.storages = tmpStorages
+    addCart.messageText = messageText
+    addCart.hidden = false
+    this.setData({
+      addCart:addCart
+    })
+  },
+
+  addCart:function(e){
+    var series = this.data.series
+    var show = e.currentTarget.dataset.show
+    var type = e.currentTarget.dataset.type
+    var cart = {}
+    if(show){
+      try{
+        cart = wx.getStorageSync("cart")
+        if(!cart){
+          cart = {products:[]}
+        }
+
+      }
+      catch(e){
+        console.log("get storage failed")
+      }
+      var products = cart.products
+      
+      var singleIndex = series[this.data.singlePage.seriesIndex].singleIndex
+      var colorIndex = series[this.data.singlePage.seriesIndex].colorIndex
+      var singleId = series[this.data.singlePage.seriesIndex].products[singleIndex]._id
+      var color = series[this.data.singlePage.seriesIndex].products[singleIndex].colors[colorIndex].color
+      var i = 0
+      for(;i<products.length;i++){
+        if(singleId == products[i]._id && color==products[i].color && type==products[i].type){
+          products[i].num += 1
+          products[i].update = new Date().getTime()
+          break
+        }
+      }
+      //没有出现过
+      if(i==products.length){
+        products.push({
+          _id:singleId,
+          color:color,
+          type:type,
+          num:1,
+          name: series[this.data.singlePage.seriesIndex].products[singleIndex].name,
+          img: series[this.data.singlePage.seriesIndex].products[singleIndex].colors[colorIndex].images[0],
+          prices: series[this.data.singlePage.seriesIndex].products[singleIndex].prices,
+          update: new Date().getTime()
+        })
+      }
+
+      try{
+        cart.products = products
+        wx.setStorageSync('cart', cart)
+        var addCart = this.data.addCart
+        addCart.hidden = true
+        addCart.addCartSuccess = true
+        addCart.productSize = type
+        this.setData({
+          addCart: addCart
+        })
+        var that = this
+        setTimeout(function(){
+          addCart.addCartSuccess = false
+          that.setData({
+            addCart:addCart
+          })
+        },10000)
+      }
+      catch(e){
+        console.log("set storage failed")
+      }
+    }
+    else{
+      console.log("未写联系页面")
+    }
+    
+  },
+
+  addCartChange:function(){
+    var addCart = this.data.addCart
+    addCart.hidden = !addCart.hidden
+    addCart.addCartSuccess = false
+    this.setData({
+      addCart:addCart
+    })
   },
 
   changeSingle:function(e){
     var singlePage = this.data.singlePage
     singlePage.seriesIndex = e.detail.current
     var series = this.data.series
-    series[e.detail.current].singleIndex = 0
+    if (series[e.detail.current].singleIndex==null){
+      series[e.detail.current].singleIndex = 0
+    }
     this.setData({
       singlePage: singlePage,
       series:series
@@ -267,6 +395,11 @@ Page({
     
     singlePage.seriesIndex = tmpSingle.seriesIndex
     series[tmpSingle.seriesIndex].singleIndex = tmpSingle.singleIndex
+    if (!series[this.data.singlePage.seriesIndex].colorIndex){
+      series[this.data.singlePage.seriesIndex].colorIndex = 0
+      series[this.data.singlePage.seriesIndex].imageIndex = 0
+    }
+    
     this.setData({
       singlePage:singlePage,
       series:series
@@ -289,6 +422,34 @@ Page({
     singlePage.show = false
     this.setData({
       singlePage: singlePage
+    })
+  },
+
+  selectColor:function(e){
+    var index = e.currentTarget.dataset.colorindex
+    var series = this.data.series
+    series[this.data.singlePage.seriesIndex].colorIndex = index
+    series[this.data.singlePage.seriesIndex].imageIndex = 0
+    var singlePage = this.data.singlePage
+    singlePage.topNum = 0
+    this.setData({
+      series:series,
+      singlePage:singlePage
+    })
+    
+  },
+
+  selectProduct:function(e){
+    var index = e.currentTarget.dataset.productindex
+    var series = this.data.series
+    series[this.data.singlePage.seriesIndex].singleIndex = index
+    series[this.data.singlePage.seriesIndex].colorIndex = 0
+    series[this.data.singlePage.seriesIndex].imageIndex = 0
+    var singlePage = this.data.singlePage
+    singlePage.topNum = 0
+    this.setData({
+      series:series,
+      singlePage:singlePage
     })
   },
 
@@ -440,6 +601,14 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    if(this.data.singlePage.show){
+      wx.showToast({
+        title: '请用指尖拖动白色区域',
+        icon:'none',
+        duration:1500
+      })
+      return
+    }
     if(this.data.hasMore){
       this.addSeries(this.data.category,this.data.subCate)
     }

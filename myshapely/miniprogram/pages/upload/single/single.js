@@ -600,7 +600,7 @@ Page({
             }
           }
         }
-        if(storages.length==0){
+        if(storages.length==0&&this.data.init){
           wx.showToast({
             title: '请输入库存',
             icon: 'none'

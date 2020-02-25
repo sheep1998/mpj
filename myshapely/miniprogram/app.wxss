@@ -1,4 +1,9 @@
 /**app.wxss**/
+
+.page{
+  font-family: Microsoft YaHei
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -156,12 +161,12 @@ page {
 
 @font-face {
   font-family: 'iconfont';  /* project id 1624957 */
-  src: url('//at.alicdn.com/t/font_1624957_wi9sx4mka6.eot');
-  src: url('//at.alicdn.com/t/font_1624957_wi9sx4mka6.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1624957_wi9sx4mka6.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1624957_wi9sx4mka6.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1624957_wi9sx4mka6.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1624957_wi9sx4mka6.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_1624957_b2ajp4n1rv9.eot');
+  src: url('//at.alicdn.com/t/font_1624957_b2ajp4n1rv9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1624957_b2ajp4n1rv9.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1624957_b2ajp4n1rv9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1624957_b2ajp4n1rv9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1624957_b2ajp4n1rv9.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -189,6 +194,7 @@ page {
 .icon-account:before{content: '\e619';}
 .icon-back:before{content: '\e605';}
 .icon-close:before{content: '\e61b';}
+.icon-message:before{content: '\e61f';}
 
 ::-webkit-scrollbar {
   width: 0;

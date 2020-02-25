@@ -79,7 +79,7 @@
   </view>
   <swiper current="{{singlePage.seriesIndex}}" bindchange="changeSingle" style="height:100%">
     <swiper-item wx:for="{{series}}" wx:key="key" wx:for-item="seriesItem">
-      <scroll-view scroll-y scroll-with-animation style='height:100%'>
+      <scroll-view scroll-y scroll-with-animation scroll-top='{{singlePage.topNum}}' style='height:100%' catchtouchmove="{{ture}}">
         <swiper indicator-dots="{{true}}" current="{{seriesItem.imageIndex?seriesItem.imageIndex:0}}" style="height:1040rpx"  vertical="{{true}}" bindchange="swiperImage">
           <swiper-item wx:for="{{seriesItem.products[seriesItem.singleIndex?seriesItem.singleIndex:0].colors[seriesItem.colorIndex?seriesItem.colorIndex:0].images}}" wx:key="key" wx:for-item="imageItem">
             <image style="width:750rpx;height:1040rpx;" src="{{imageItem}}"></image>
@@ -95,7 +95,7 @@
             </view>
           </view>
           <view class="add_cart">
-            <view class="add">添加</view>
+            <view class="add" bindtap="openAddCart">添加</view>
             <view class="cart-container">
               <view class="i-container">
                 <icon class="iconfont icon-shoppingCart" style="font-size:50rpx;"></icon>
@@ -105,10 +105,59 @@
           <textarea disabled="{{true}}" auto-height="{{true}}" class="intro">
             {{seriesItem.products[seriesItem.singleIndex].introduction}}
           </textarea>
-          <view class="colors-title">{{seriesItem.products[seriesItem.singleIndex].colors.length}}种颜色</view>
+          <view class="colors-title" hidden="{{seriesItem.products[seriesItem.singleIndex].colors.length==1}}">{{seriesItem.products[seriesItem.singleIndex].colors.length}}种颜色</view>
+          <scroll-view class="color-list" scroll-x scroll-with-animation hidden="{{seriesItem.products[seriesItem.singleIndex].colors.length==1}}">
+            <view style="display:flex;flex-direction:row">
+              <view wx:for="{{seriesItem.products[seriesItem.singleIndex].colors}}" class="color-container"  wx:for-index="colorIndex"  wx:for-item="colorItem" data-color='{{colorItem.color}}' data-colorindex="{{colorIndex}}" bindtap='selectColor' wx:key="key">
+                <image src="{{colorItem.images[0]}}"></image>
+                <view class="color">{{colorItem.color}}</view>
+              </view>
+            </view>
+          </scroll-view>
+          <view hidden="{{seriesItem.products[seriesItem.singleIndex].colors.length==1}}" style="height:100rpx;" class="padding"></view>
+          <view hidden="{{seriesItem.products.length==1}}" class="colors-title">系列产品</view>
+          <scroll-view hidden="{{seriesItem.products.length==1}}" class="sproduct-list" scroll-x scroll-with-animation>
+            <view style="display:flex;flex-direction:row">
+              <view wx:for="{{seriesItem.products}}" class="sproduct-container"  wx:for-index="productIndex"  wx:for-item="productItem" data-productindex="{{productIndex}}" bindtap='selectProduct' wx:key="key" hidden="{{productIndex==seriesItem.singleIndex}}">
+                <image src="{{productItem.colors[0].images[0]}}"></image>
+                <view class="sproduct-name">{{productItem.name}}</view>
+                <view class="sproduct-price">￥{{productItem.prices[0].price}}.00</view>
+              </view>
+            </view>
+          </scroll-view>
           <view style="height:500rpx;" class="padding"></view>
         </view>
       </scroll-view>
     </swiper-item>
   </swiper>
+</view>
+
+<action-sheet hidden="{{addCart.hidden}}" bindchange="addCartChange"> 
+  <view class="action-sheet-container">
+    <view class="storages-container">
+      <view class="storages">
+        <scroll-view>
+          <view class="sizes">
+            <view wx:for="{{addCart.storages}}" wx:key="key" wx:for-item="size" class="{{size.show?'size-yes':'size-no'}}" style="{{index%2==1?'margin-right:0rpx':''}}" data-show="{{size.show}}" data-type="{{size.type}}" bindtap="addCart">
+              <view>{{size.type}}</view>
+              <view hidden="{{size.show}}" class="message">
+                <icon class="iconfont icon-message" style="font-size:40rpx"></icon>
+              </view>
+            </view>
+          </view>
+          <view hidden="{{!addCart.messageText}}" class="message-text">
+            <icon class="iconfont icon-message" style="font-size:40rpx"></icon>
+            <view style="font-size:30rpx;color:black;">到货时我们会联系您</view>
+          </view>
+        </scroll-view>
+        <view class="my-size">我的尺码是多少？
+        </view>
+      </view>
+    </view>
+  </view>
+</action-sheet>
+
+<view class="success-tab-container" hidden="{{!addCart.addCartSuccess}}">
+  <view class="toast">{{addCart.productSize}} 已添加至您的购物袋</view>
+  <view class="check">查看</view>
 </view>
